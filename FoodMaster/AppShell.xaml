@@ -33,12 +33,12 @@
     <TabBar>
         <ShellContent
             Title="Recetas"
-            ContentTemplate="{DataTemplate local:AboutPage}"
+            ContentTemplate="{DataTemplate local:RecipeHome}"
             Icon="icon_about.png"
             Route="AboutPage" />
         <ShellContent
             Title="Historial"
-            ContentTemplate="{DataTemplate local:ItemsPage}"
+            ContentTemplate="{DataTemplate local:RecipeHome}"
             Icon="icon_feed.png" />
         <ShellContent
             Title="Contacto"

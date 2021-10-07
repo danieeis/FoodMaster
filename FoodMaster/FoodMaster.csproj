@@ -23,6 +23,7 @@
     <None Remove="Acr.UserDialogs" />
     <None Remove="Interfaces\" />
     <None Remove="Views\Onboarding\" />
+    <None Remove="Views\Recetas\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -32,6 +33,7 @@
     <Folder Include="ViewModels\Auth\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Views\Onboarding\" />
+    <Folder Include="Views\Recetas\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\logo.png" />
