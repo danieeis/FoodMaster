@@ -33,6 +33,10 @@ namespace FoodMaster.ViewModels
             LoginCommand = new Command(OnLoginClicked);
             GoRegister = new Command(OnGoRegisterClicked);
             _authenticationService = DependencyService.Get<IAuthenticationService>();
+#if DEBUG
+            Email = "danieldaniyyelda@gmail.com";
+            Password = "Aa.12345";
+#endif
         }
 
         private async void OnLoginClicked(object obj)

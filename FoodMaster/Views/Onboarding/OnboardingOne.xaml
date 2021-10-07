@@ -2,8 +2,48 @@
 <ContentPage
     x:Class="FoodMaster.Views.Onboarding.OnboardingOne"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{DynamicResource BackgroundColor}">
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+        </Style>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <Label Text="Onboarding one" />
+        <StackLayout Padding="30">
+            <BoxView HeightRequest="100" />
+            <CarouselView
+                IndicatorView="indicatorView"
+                ItemsSource="{Binding Onboardings}"
+                VerticalOptions="EndAndExpand">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout VerticalOptions="EndAndExpand">
+                            <Label FontSize="28" Text="{Binding Title}" />
+
+                            <Image
+                                Aspect="AspectFit"
+                                HeightRequest="300"
+                                IsAnimationPlaying="{Binding IsAnimated}"
+                                Source="{Binding Image}" />
+                            <Label FontSize="22" Text="{Binding Subtitle}" />
+                            <Label FontSize="Caption" Text="{Binding Text}" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+            <IndicatorView
+                x:Name="indicatorView"
+                Margin="0,40"
+                HorizontalOptions="Center"
+                IndicatorColor="LightGray"
+                SelectedIndicatorColor="{DynamicResource PrimaryDark}"
+                VerticalOptions="End" />
+            <Button
+                Command="{Binding GetStartedCommand}"
+                HorizontalOptions="Center"
+                Text="Comenzar"
+                WidthRequest="200" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

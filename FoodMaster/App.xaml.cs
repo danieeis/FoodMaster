@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using FoodMaster.Services;
 using FoodMaster.Views;
+using FoodMaster.Views.Onboarding;
 
 namespace FoodMaster
 {
@@ -14,7 +15,16 @@ namespace FoodMaster
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
-            MainPage = new LoginPage();
+            if (DependencyService.Get<IAuthenticationService>().IsSignIn())
+            {
+                //check if already open the onboarding.
+                MainPage = new OnboardingOne();
+            }
+            else
+            {
+                MainPage = new LoginPage();
+            }
+            
         }
 
         protected override void OnStart()
