@@ -8,5 +8,33 @@
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="1.2.0" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.514" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\" />
+    <None Remove="Resources\Icons\" />
+    <None Remove="Resources\Images\" />
+    <None Remove="Resources\Images\logo.png" />
+    <None Remove="Resources\anaktoria.otf" />
+    <None Remove="Xamarin.CommunityToolkit" />
+    <None Remove="Views\Auth\" />
+    <None Remove="ViewModels\Auth\" />
+    <None Remove="Acr.UserDialogs" />
+    <None Remove="Interfaces\" />
+    <None Remove="Views\Onboarding\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+    <Folder Include="Resources\Icons\" />
+    <Folder Include="Resources\Images\" />
+    <Folder Include="Views\Auth\" />
+    <Folder Include="ViewModels\Auth\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Views\Onboarding\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\logo.png" />
+    <EmbeddedResource Include="Resources\anaktoria.otf" />
   </ItemGroup>
 </Project>
