@@ -47,13 +47,11 @@
                     BackgroundColor="#EA4335"
                     Command="{Binding LoginWithGoogle}"
                     HorizontalOptions="FillAndExpand"
-                    IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}"
                     Text="Google" />
                 <Button
                     BackgroundColor="#3B5998"
                     Command="{Binding LoginWithFacebook}"
                     HorizontalOptions="FillAndExpand"
-                    IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}"
                     Text="Facebook" />
             </StackLayout>
             <Label HorizontalTextAlignment="Center">
