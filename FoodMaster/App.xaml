@@ -33,6 +33,10 @@
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource TextColor}" />
             </Style>
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="{StaticResource TextColor}" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextColor}" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -28,20 +28,24 @@
                 Keyboard="Default"
                 Placeholder="Nombre completo"
                 ReturnType="Next"
-                Style="{x:StaticResource CustomEntry}" />
+                Style="{x:StaticResource CustomEntry}"
+                Text="{Binding Names}" />
             <Entry
                 Keyboard="Email"
                 Placeholder="Correo eléctronico"
                 ReturnType="Next"
-                Style="{x:StaticResource CustomEntry}" />
+                Style="{x:StaticResource CustomEntry}"
+                Text="{Binding Email}" />
             <Entry
                 IsPassword="True"
                 Placeholder="Contraseña"
                 ReturnCommand="{Binding RegisterCommand}"
                 ReturnType="Done"
-                Style="{x:StaticResource CustomEntry}" />
+                Style="{x:StaticResource CustomEntry}"
+                Text="{Binding Password}" />
             <Button
                 Command="{Binding RegisterCommand}"
+                IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}"
                 Text="Crear cuenta"
                 VerticalOptions="Center" />
             <StackLayout Orientation="Horizontal">

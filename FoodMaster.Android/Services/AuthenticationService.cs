@@ -33,6 +33,24 @@ namespace FoodMaster.Droid.Services
             }
         }
 
+        public async Task<string> RegisterWithEmailPassword(string email, string password)
+        {
+            try
+            {
+                var user = await FirebaseAuth.Instance.CreateUserWithEmailAndPasswordAsync(email, password);
+                var token = await user.User.GetIdToken(false).ToAwaitableTask();
+
+                return token.ToString();
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.Print(e.Message);
+                return string.Empty;
+            }
+        }
+
+
+
         public bool SignOut()
         {
             try
