@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="FoodMaster.Views.LoginPage"
+    x:Class="FoodMaster.Views.RegisterPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
@@ -23,44 +23,47 @@
             <Label
                 FontSize="Title"
                 HorizontalTextAlignment="Center"
-                Text="Inicia sesión" />
+                Text="Regístrate" />
+            <Entry
+                Keyboard="Default"
+                Placeholder="Nombre completo"
+                ReturnType="Next"
+                Style="{x:StaticResource CustomEntry}" />
             <Entry
                 Keyboard="Email"
                 Placeholder="Correo eléctronico"
                 ReturnType="Next"
-                Style="{x:StaticResource CustomEntry}"
-                Text="{Binding Email}" />
+                Style="{x:StaticResource CustomEntry}" />
             <Entry
                 IsPassword="True"
                 Placeholder="Contraseña"
-                ReturnCommand="{Binding LoginCommand}"
+                ReturnCommand="{Binding RegisterCommand}"
                 ReturnType="Done"
-                Style="{x:StaticResource CustomEntry}"
-                Text="{Binding Password}" />
+                Style="{x:StaticResource CustomEntry}" />
             <Button
-                Command="{Binding LoginCommand}"
-                Text="Ingresar"
+                Command="{Binding RegisterCommand}"
+                Text="Crear cuenta"
                 VerticalOptions="Center" />
             <StackLayout Orientation="Horizontal">
                 <Button
                     BackgroundColor="#EA4335"
-                    Command="{Binding LoginWithGoogle}"
+                    Command="{Binding RegisterWithGoogle}"
                     HorizontalOptions="FillAndExpand"
                     Text="Google" />
                 <Button
                     BackgroundColor="#3B5998"
-                    Command="{Binding LoginWithFacebook}"
+                    Command="{Binding RegisterWithFacebook}"
                     HorizontalOptions="FillAndExpand"
                     Text="Facebook" />
             </StackLayout>
             <Label HorizontalTextAlignment="Center">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="¿No tienes una cuenta? Regístrate" />
+                        <Span Text="¿Ya tienes una cuenta? Ingresa" />
                         <Span Text=" " />
                         <Span Text="aquí" TextDecorations="Underline">
                             <Span.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding GoRegister}" />
+                                <TapGestureRecognizer Command="{Binding GoLogin}" />
                             </Span.GestureRecognizers>
                         </Span>
                     </FormattedString>

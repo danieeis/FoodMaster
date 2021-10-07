@@ -1,0 +1,17 @@
+Food Master App
+
+- Features
+
+- Inicio/Registro
+- Onboarding
+- Recetas (Categorias, platos, detalle de los platos)
+- Pedidos via Whatsapp
+- Historial de pedidos
+- Contactanos
+- Clases online
+
+
+Mejoras:
+
+
+Fixes:

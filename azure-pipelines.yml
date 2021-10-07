@@ -1,0 +1,61 @@
+resources:
+  repositories:
+    - repository: builttoroam_templates
+      type: github
+      name: builttoroam/pipeline_templates
+      ref: refs/tags/v0.7.3
+      endpoint: github.com_danieeis
+
+variables:
+  - name: BuildConfiguration
+    value: "Release"
+
+name: $(Date:yyyyMMdd)$(Rev:r)
+
+stages:
+  - template: azure/stages/build-xamarin-android.yml@builttoroam_templates
+    parameters:
+      stage_name: "BuildAndroid"
+      solution_filename: "**/*.sln"
+      solution_build_configuration: $(BuildConfiguration)
+      secure_file_keystore_filename: "foodmaster.keystore"
+      keystore_alias: "foodmaster"
+      keystore_password: $(keystore_pass)
+      nuget_version: "5.8.0"
+      artifact_folder: "Android"
+      application_package: "FoodMasterAppClient.aab"
+      build_number: "$(Build.BuildNumber)"
+      full_version_number: "0.1.$(Build.BuildNumber)"
+      preBuild:
+        - task: DotNetCoreCLI@2
+          inputs:
+            command: "test"
+            projects: "$(Build.SourcesDirectory)/FoodMaster/FoodMaster.UnitTests/FoodMaster.UnitTests.csproj"
+            testRunTitle: "Unit tests"
+            arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" --settings $(Build.SourcesDirectory)/FoodMaster/test.runsettings'
+            continueOnError: false
+            publishTestResults: true
+        - task: PublishCodeCoverageResults@1
+          inputs:
+            codeCoverageTool: "Cobertura"
+            failIfCoverageEmpty: true
+            summaryFileLocation: '$(Agent.TempDirectory)\**\coverage.cobertura.xml'
+
+  - template: azure/stages/deploy-appcenter.yml@builttoroam_templates
+    parameters:
+      deploy_appcenter_enabled: true
+      depends_on: "BuildAndroid"
+      artifact_folder: "Android"
+      application_package: "FoodMasterAppClient.aab"
+      appcenter_service_connection: "appcenter.ms_jdanieltovart"
+      appcenter_organisation: "jdanieltovart"
+      appcenter_applicationid: "RecetasApp"
+      appcenter_release_notes_source: "source_control"
+      appcenter_release_notes_option: "file"
+      appcenter_release_notes_file: "release-notes.txt"
+      secure_file_keystore_filename: "foodmaster.keystore"
+      keystore_alias: "foodmaster"
+      keystore_password: $(keystore_pass)
+      appcenter_distribution_group_ids: #'a19d24e0-31d6-4642-8c8f-32ecdfb48e32' # Distribute to Internal group
+      appcenter_is_mandatory_update: false
+      appcenter_dont_notify_testers: false
