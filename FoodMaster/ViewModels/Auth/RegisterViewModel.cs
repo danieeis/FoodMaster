@@ -18,13 +18,13 @@ namespace FoodMaster.ViewModels.Auth
             GoLogin = new Command(OnGoLoginClicked);
         }
 
-        private async void OnLoginClicked(object obj)
+        private void OnLoginClicked(object obj)
         {
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
             //await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
         }
 
-        private async void OnGoLoginClicked(object obj)
+        private void OnGoLoginClicked(object obj)
         {
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
             App.Current.MainPage = new LoginPage();

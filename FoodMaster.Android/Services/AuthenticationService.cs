@@ -11,6 +11,12 @@ namespace FoodMaster.Droid.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
+        public bool IsSignIn()
+        {
+            var user = FirebaseAuth.Instance.CurrentUser;
+            return user != null;
+        }
+
         public async Task<string> LoginWithEmailPassword(string email, string password)
         {
             try
@@ -24,6 +30,19 @@ namespace FoodMaster.Droid.Services
             {
                 System.Diagnostics.Debug.Print(e.Message);
                 return string.Empty;
+            }
+        }
+
+        public bool SignOut()
+        {
+            try
+            {
+                FirebaseAuth.Instance.SignOut();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }
