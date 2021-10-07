@@ -10,7 +10,7 @@ namespace FoodMaster.Services
 {
     public class UserService
     {
-        readonly static WeakEventManager<string> _nameChangedEventManager = new();
+        readonly static WeakEventManager<string> _nameChangedEventManager = new WeakEventManager<string>();
 
         User? _user;
         IAuthenticationService _authenticationService;
@@ -51,7 +51,7 @@ namespace FoodMaster.Services
             }
         }
 
-        public User? User
+        public User User
         {
             get => _user;
             set
