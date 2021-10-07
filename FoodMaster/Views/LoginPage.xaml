@@ -39,6 +39,7 @@
                 Text="{Binding Password}" />
             <Button
                 Command="{Binding LoginCommand}"
+                IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}"
                 Text="Ingresar"
                 VerticalOptions="Center" />
             <StackLayout Orientation="Horizontal">
@@ -46,11 +47,13 @@
                     BackgroundColor="#EA4335"
                     Command="{Binding LoginWithGoogle}"
                     HorizontalOptions="FillAndExpand"
+                    IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}"
                     Text="Google" />
                 <Button
                     BackgroundColor="#3B5998"
                     Command="{Binding LoginWithFacebook}"
                     HorizontalOptions="FillAndExpand"
+                    IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}"
                     Text="Facebook" />
             </StackLayout>
             <Label HorizontalTextAlignment="Center">

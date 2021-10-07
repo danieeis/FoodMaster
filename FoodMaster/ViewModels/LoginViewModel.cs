@@ -25,27 +25,29 @@ namespace FoodMaster.ViewModels
             set => SetProperty(ref password, value);
         }
         IAuthenticationService _authenticationService;
-        bool IsLoading;
+        
 
 
         public LoginViewModel()
         {
             LoginCommand = new Command(OnLoginClicked);
-            GoRegister = new Command(OnGoRegisterClicked, (can) => !IsLoading);
+            GoRegister = new Command(OnGoRegisterClicked);
             _authenticationService = DependencyService.Get<IAuthenticationService>();
         }
 
         private async void OnLoginClicked(object obj)
         {
-            IsLoading = true;
+            IsBusy = true;
             if (string.IsNullOrEmpty(Email))
             {
                 UserDialogs.Instance.Toast("Debe ingresar el email");
+                IsBusy = false;
                 return;
             }
             else if (string.IsNullOrEmpty(Password))
             {
                 UserDialogs.Instance.Toast("Debe ingresar la contraseña");
+                IsBusy = false;
                 return;
             }
 
@@ -58,8 +60,8 @@ namespace FoodMaster.ViewModels
             {
                 UserDialogs.Instance.Toast("Credenciales inválidas");
             }
-            IsLoading = false;
 
+            IsBusy = false;
             //await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
         }
 
