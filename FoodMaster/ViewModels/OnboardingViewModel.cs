@@ -23,9 +23,7 @@ namespace FoodMaster.ViewModels
 
         private void GetStartedClicked()
         {
-#if DEBUG
             App.Current.MainPage = new AppShell();
-#endif
         }
 
     }

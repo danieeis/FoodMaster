@@ -25,6 +25,7 @@ namespace FoodMaster.ViewModels
             set => SetProperty(ref password, value);
         }
         IAuthenticationService _authenticationService;
+        UserService _userService;
         
 
 
@@ -33,6 +34,7 @@ namespace FoodMaster.ViewModels
             LoginCommand = new Command(OnLoginClicked);
             GoRegister = new Command(OnGoRegisterClicked);
             _authenticationService = DependencyService.Get<IAuthenticationService>();
+            _userService = DependencyService.Get<UserService>();
 #if DEBUG
             Email = "danieldaniyyelda@gmail.com";
             Password = "Aa.12345";
@@ -56,9 +58,18 @@ namespace FoodMaster.ViewModels
             }
 
             string token = await _authenticationService.LoginWithEmailPassword(Email, Password);
+            
             if (!string.IsNullOrEmpty(token))
             {
-                App.Current.MainPage = new OnboardingOne();
+                await _userService.SaveToken(token).ConfigureAwait(false);
+                if (_userService.PassThroughOnboarding)
+                {
+                    App.Current.MainPage = new AppShell();
+                }
+                else
+                {
+                    App.Current.MainPage = new OnboardingOne();
+                }
             }
             else
             {

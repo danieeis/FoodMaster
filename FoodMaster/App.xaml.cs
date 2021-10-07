@@ -15,10 +15,19 @@ namespace FoodMaster
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
-            if (DependencyService.Get<IAuthenticationService>().IsSignIn())
+            DependencyService.Register<UserService>();
+            var userService = DependencyService.Get<UserService>();
+            if (userService.IsAuthenticated)
             {
-                //check if already open the onboarding.
-                MainPage = new OnboardingOne();
+                if (userService.PassThroughOnboarding)
+                {
+                    MainPage = new AppShell();
+                }
+                else
+                {
+                    MainPage = new OnboardingOne();
+                }
+                
             }
             else
             {
