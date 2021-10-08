@@ -12,7 +12,7 @@ namespace FoodMaster.Services
     {
         readonly static WeakEventManager<string> _nameChangedEventManager = new WeakEventManager<string>();
 
-        User? _user;
+        User _user;
         IAuthenticationService _authenticationService;
 
         public UserService()
@@ -35,7 +35,7 @@ namespace FoodMaster.Services
         public bool PassThroughOnboarding
         {
             get => Preferences.Get(nameof(PassThroughOnboarding), false);
-            private set => Preferences.Set(nameof(PassThroughOnboarding), value);
+            set => Preferences.Set(nameof(PassThroughOnboarding), value);
         }
 
         public string Name

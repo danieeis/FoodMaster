@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FoodMaster.ViewModels;
-using FoodMaster.ViewModels.Auth;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
