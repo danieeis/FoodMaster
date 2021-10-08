@@ -6,7 +6,10 @@
     xmlns:vm="clr-namespace:FoodMaster.ViewModels"
     Title="{Binding Title}"
     BackgroundColor="{DynamicResource BackgroundColor}">
-
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding LogoutCommand}" Text="Salir">
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:RecipeHomeViewModel />
     </ContentPage.BindingContext>
