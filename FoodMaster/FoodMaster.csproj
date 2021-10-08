@@ -17,6 +17,9 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.2.0" />
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.514" />
+    <PackageReference Include="Microsoft.AppCenter" Version="4.4.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.4.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.4.0" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\" />
@@ -29,8 +32,10 @@
     <None Remove="ViewModels\Auth\" />
     <None Remove="Acr.UserDialogs" />
     <None Remove="Interfaces\" />
-    <None Remove="Views\Onboarding\" />
     <None Remove="Views\Recetas\" />
+    <None Remove="Microsoft.AppCenter" />
+    <None Remove="Microsoft.AppCenter.Analytics" />
+    <None Remove="Microsoft.AppCenter.Crashes" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -39,8 +44,7 @@
     <Folder Include="Views\Auth\" />
     <Folder Include="ViewModels\Auth\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Views\Onboarding\" />
-    <Folder Include="Views\Recetas\" />
+    <Folder Include="Views\Recipes\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\logo.png" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using FoodMaster.ViewModels;
 using Xamarin.Forms;
 
-namespace FoodMaster.Views.Onboarding
+namespace FoodMaster.Views
 {
     public partial class OnboardingOne : ContentPage
     {

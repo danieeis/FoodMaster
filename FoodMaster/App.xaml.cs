@@ -1,9 +1,6 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 using FoodMaster.Services;
 using FoodMaster.Views;
-using FoodMaster.Views.Onboarding;
 
 namespace FoodMaster
 {
@@ -13,9 +10,7 @@ namespace FoodMaster
         public App()
         {
             InitializeComponent();
-
-            DependencyService.Register<MockDataStore>();
-            DependencyService.Register<UserService>();
+            RegisterServices();
             var userService = DependencyService.Get<UserService>();
             if (userService.IsAuthenticated)
             {
@@ -27,13 +22,20 @@ namespace FoodMaster
                 {
                     MainPage = new OnboardingOne();
                 }
-                
+
             }
             else
             {
                 MainPage = new LoginPage();
             }
-            
+
+        }
+
+        private static void RegisterServices()
+        {
+            DependencyService.Register<UserService>();
+            DependencyService.Register<AnalyticsService>();
+            DependencyService.Register<App>();
         }
 
         protected override void OnStart()

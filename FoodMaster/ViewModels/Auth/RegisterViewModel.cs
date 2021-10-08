@@ -2,10 +2,9 @@
 using Acr.UserDialogs;
 using FoodMaster.Services;
 using FoodMaster.Views;
-using FoodMaster.Views.Onboarding;
 using Xamarin.Forms;
 
-namespace FoodMaster.ViewModels.Auth
+namespace FoodMaster.ViewModels
 {
     public class RegisterViewModel : BaseViewModel
     {
