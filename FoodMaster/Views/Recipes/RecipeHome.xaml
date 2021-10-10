@@ -3,15 +3,145 @@
     x:Class="FoodMaster.Views.RecipeHome"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ff1="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
     xmlns:vm="clr-namespace:FoodMaster.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="{Binding Title}"
     BackgroundColor="{DynamicResource BackgroundColor}">
-
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding LogoutCommand}" Text="Salir" />
+    </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:RecipeHomeViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout />
+        <Grid
+            Padding="0,20"
+            ColumnDefinitions="Auto"
+            ColumnSpacing="10"
+            RowDefinitions="Auto,*"
+            RowSpacing="10">
+            <Frame
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="10,0"
+                Padding="0"
+                CornerRadius="10"
+                HasShadow="False">
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout Padding="20">
+                        <Label FontSize="Title" Text="Clases online" />
+                        <Label Text="¡Aprende de los profesionales de la cocina!" />
+                    </StackLayout>
+
+                    <ff1:SvgCachedImage
+                        HorizontalOptions="EndAndExpand"
+                        Source="online_class.svg"
+                        WidthRequest="100" />
+                </StackLayout>
+            </Frame>
+            <xct:TabView
+                Grid.Row="1"
+                Grid.Column="0"
+                TabContentBackgroundColor="{DynamicResource BackgroundColor}"
+                TabIndicatorColor="{DynamicResource Accent}"
+                TabStripBackgroundColor="{DynamicResource BackgroundColor}"
+                TabStripPlacement="Top"
+                VerticalOptions="FillAndExpand">
+
+                <xct:TabViewItem
+                    FontFamily="AppFont"
+                    FontSize="12"
+                    Text="Nacionales"
+                    TextColor="{DynamicResource TextColor}"
+                    TextColorSelected="{DynamicResource Accent}"
+                    VerticalOptions="FillAndExpand">
+                    <RefreshView IsRefreshing="{Binding IsBusy}">
+                        <CollectionView Margin="10" ItemsSource="{Binding NationalCategories}">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout
+                                    HorizontalItemSpacing="10"
+                                    Orientation="Vertical"
+                                    Span="2"
+                                    VerticalItemSpacing="10" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame Padding="0" CornerRadius="20">
+                                        <Grid>
+                                            <Image
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Aspect="AspectFill"
+                                                HorizontalOptions="FillAndExpand"
+                                                Source="{Binding Image}"
+                                                VerticalOptions="FillAndExpand" />
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Padding="10"
+                                                BackgroundColor="#90000000"
+                                                HorizontalOptions="FillAndExpand"
+                                                Text="{Binding Name}"
+                                                TextColor="White"
+                                                VerticalOptions="End" />
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </RefreshView>
+
+                </xct:TabViewItem>
+
+                <xct:TabViewItem
+                    FontFamily="AppFont"
+                    FontSize="12"
+                    Text="Internacionales"
+                    TextColor="{DynamicResource TextColor}"
+                    TextColorSelected="{DynamicResource Accent}"
+                    VerticalOptions="FillAndExpand">
+                    <RefreshView IsRefreshing="{Binding IsBusy}">
+                        <CollectionView Margin="10" ItemsSource="{Binding InternationalCategories}">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout
+                                    HorizontalItemSpacing="10"
+                                    Orientation="Vertical"
+                                    Span="2"
+                                    VerticalItemSpacing="10" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame Padding="0" CornerRadius="20">
+                                        <Grid>
+                                            <Image
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Aspect="AspectFill"
+                                                HorizontalOptions="FillAndExpand"
+                                                Source="{Binding Image}"
+                                                VerticalOptions="FillAndExpand" />
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Padding="10"
+                                                BackgroundColor="#90000000"
+                                                HorizontalOptions="FillAndExpand"
+                                                Text="{Binding Name}"
+                                                TextColor="White"
+                                                VerticalOptions="End" />
+                                        </Grid>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RecipeHomeViewModel}}, Path=OpenCategory}" CommandParameter="{Binding .}" />
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </RefreshView>
+                </xct:TabViewItem>
+            </xct:TabView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

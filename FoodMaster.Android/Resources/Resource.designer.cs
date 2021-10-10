@@ -18054,22 +18054,25 @@ namespace FoodMaster.Droid
 			public const int onboarding_3 = 2131165352;
 			
 			// aapt resource value: 0x7F0700A9
-			public const int roundedbg = 2131165353;
+			public const int online_class = 2131165353;
 			
 			// aapt resource value: 0x7F0700AA
-			public const int roundedbgdark = 2131165354;
+			public const int roundedbg = 2131165354;
 			
 			// aapt resource value: 0x7F0700AB
-			public const int test_custom_background = 2131165355;
+			public const int roundedbgdark = 2131165355;
 			
 			// aapt resource value: 0x7F0700AC
-			public const int tooltip_frame_dark = 2131165356;
+			public const int test_custom_background = 2131165356;
 			
 			// aapt resource value: 0x7F0700AD
-			public const int tooltip_frame_light = 2131165357;
+			public const int tooltip_frame_dark = 2131165357;
 			
 			// aapt resource value: 0x7F0700AE
-			public const int xamarin_logo = 2131165358;
+			public const int tooltip_frame_light = 2131165358;
+			
+			// aapt resource value: 0x7F0700AF
+			public const int xamarin_logo = 2131165359;
 			
 			static Drawable()
 			{

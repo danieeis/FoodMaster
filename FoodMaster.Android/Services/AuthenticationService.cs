@@ -5,12 +5,26 @@ using System.Threading.Tasks;
 using Firebase.Auth;
 using Android.Gms.Tasks;
 using System;
+using FoodMaster.Models;
 
 [assembly: Dependency(typeof(AuthenticationService))]
 namespace FoodMaster.Droid.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
+        public User GetUserAsync()
+        {
+            var user = FirebaseAuth.Instance.CurrentUser;
+
+            return new User()
+            {
+                Id = user.TenantId,
+                Email = user.Email,
+                Names = user.DisplayName
+            };
+
+        }
+
         public bool IsSignIn()
         {
             var user = FirebaseAuth.Instance.CurrentUser;

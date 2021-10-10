@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FoodMaster.Models;
+using FoodMaster.Services;
 using Xamarin.Forms;
 
 namespace FoodMaster.ViewModels
@@ -10,8 +11,11 @@ namespace FoodMaster.ViewModels
         public List<Onboarding> Onboardings { get; set; }
         public Command GetStartedCommand { get; }
 
+        UserService _userService;
+
         public OnboardingViewModel()
         {
+            _userService = DependencyService.Get<UserService>();
             Onboardings = new List<Onboarding>()
             {
                 new Onboarding(){ Title = "¿Como funciona?", Subtitle = "1. Escoge tus recetas", Text = "Tendrás la opción de elegir la receta que más se adecúe a lo que deseas, entre la gran cantidad de opciones separadas por categorias.", Image = "onboarding_1.gif", IsAnimated = true },
@@ -23,6 +27,7 @@ namespace FoodMaster.ViewModels
 
         private void GetStartedClicked()
         {
+            _userService.PassThroughOnboarding = true;
             App.Current.MainPage = new AppShell();
         }
 
