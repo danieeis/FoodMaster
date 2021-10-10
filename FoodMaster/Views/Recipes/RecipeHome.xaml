@@ -3,7 +3,7 @@
     x:Class="FoodMaster.Views.RecipeHome"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="clr-namespace:FoodMaster.ViewModels"
+    xmlns:vm="clr-namespace:FoodMaster.ViewModels" xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" xmlns:ff1="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="{Binding Title}"
     BackgroundColor="{DynamicResource BackgroundColor}">
     <ContentPage.ToolbarItems>
@@ -15,6 +15,58 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout />
+        <Grid
+            Padding="0,20"
+            ColumnDefinitions="*"
+            ColumnSpacing="10"
+            RowDefinitions="Auto,*,*"
+            RowSpacing="10">
+            <Frame Margin="10,0" Padding="0" Grid.Row="0" Grid.Column="0" HasShadow="False" CornerRadius="10">
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout Padding="20">
+                        <Label FontSize="Title" Text="Clases online"/>
+                        <Label Text="¡Aprende de los profesionales de la cocina"/>
+                    </StackLayout>
+
+                    <ff1:SvgCachedImage HorizontalOptions="EndAndExpand" WidthRequest="100" Source="online_class.svg"/>
+                </StackLayout>
+            </Frame>
+            <xct:TabView Grid.Row="1" Grid.Column="0"
+                TabStripPlacement="Top"
+                TabStripBackgroundColor="{DynamicResource BackgroundColor}"
+                TabStripHeight="60"
+                TabIndicatorColor="{DynamicResource Accent}"
+                TabContentBackgroundColor="{DynamicResource BackgroundColor}">
+
+                <xct:TabViewItem
+                    Text="Nacionales"
+                    FontFamily="AppFont"
+                    TextColor="{DynamicResource TextColor}"
+                    TextColorSelected="{DynamicResource Accent}"
+                    FontSize="12">
+                    <Grid 
+                        BackgroundColor="Gray">
+                        <Label
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Text="TabContent1" />
+                    </Grid>
+                </xct:TabViewItem>
+
+                <xct:TabViewItem
+                    Text="Internacionales"
+                    FontFamily="AppFont"
+                    TextColor="{DynamicResource TextColor}"
+                    TextColorSelected="{DynamicResource Accent}"
+                    FontSize="12">
+                    <Grid>
+                        <Label    
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Text="TabContent2" />
+                    </Grid>
+                </xct:TabViewItem>
+            </xct:TabView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

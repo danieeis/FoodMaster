@@ -13,7 +13,7 @@
             <Color x:Key="TextColor">#4B4A4A</Color>
             <Style TargetType="Button">
                 <Setter Property="TextColor" Value="White" />
-                <Setter Property="FontFamily" Value="Appfont"/>
+                <Setter Property="FontFamily" Value="AppFont"/>
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
@@ -33,12 +33,12 @@
             </Style>
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource TextColor}" />
-                <Setter Property="FontFamily" Value="Appfont"/>
+                <Setter Property="FontFamily" Value="AppFont"/>
             </Style>
             <Style TargetType="Entry">
                 <Setter Property="TextColor" Value="{StaticResource TextColor}" />
                 <Setter Property="PlaceholderColor" Value="{StaticResource TextColor}" />
-                <Setter Property="FontFamily" Value="Appfont"/>
+                <Setter Property="FontFamily" Value="AppFont"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
