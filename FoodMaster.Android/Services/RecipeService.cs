@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Firebase.Firestore;
@@ -23,8 +24,11 @@ namespace FoodMaster.Droid.Services
                 foreach(DocumentSnapshot item in cats.Documents)
                 {
                     Gastronomy gastronomy = new Gastronomy();
+                    gastronomy.Id = item.Id;
+                    gastronomy.Type = item.GetString("gastronomia");
                     gastronomy.Name = item.GetString("name");
                     gastronomy.Image = item.GetString("image");
+                    gastronomy.DocumentPath = $"internacionales/{item.Id}/platos";
 
                     gastronomies.Add(gastronomy);
                 }
@@ -46,8 +50,11 @@ namespace FoodMaster.Droid.Services
                 foreach (DocumentSnapshot item in cats.Documents)
                 {
                     Gastronomy gastronomy = new Gastronomy();
+                    gastronomy.Id = item.Id;
+                    gastronomy.Type = item.GetString("gastronomia");
                     gastronomy.Name = item.GetString("name");
                     gastronomy.Image = item.GetString("image");
+                    gastronomy.DocumentPath = $"nacionales/{item.Id}/platos";
 
                     gastronomies.Add(gastronomy);
                 }
@@ -57,6 +64,73 @@ namespace FoodMaster.Droid.Services
             }
 
             return Enumerable.Empty<Gastronomy>();
+        }
+
+        public async Task<IEnumerable<Food>> GetFoods(string documentPath)
+        {
+            var foods = await FirebaseFirestore.Instance.Collection(documentPath).Get().ToAwaitableTask();
+
+            List<Food> foodsList = new List<Food>();
+            if (foods is QuerySnapshot cats)
+            {
+                foreach (DocumentSnapshot item in cats.Documents)
+                {
+                    Food food = new Food();
+                    food.Id = item.Id;
+                    food.Type = item.GetString("gastronomia");
+                    food.Category = item.GetString("categoria");
+                    food.Name = item.GetString("name");
+                    food.Image = item.GetString("image");
+                    food.Level = item.GetString("nivel");
+                    food.Timing = item.GetString("tiempo");
+                    food.Tips = (string[]) item.Get("consejos");
+                    food.Preparation = (string[])item.Get("preparacion");
+                    food.NutritionalValue = (Dictionary<string,string>) item.Get("valor_nutrional").ToDictionary<string>();
+                    food.Ingredients = (Dictionary<string, string>) item.Get("valor_nutrional").ToDictionary<string>();
+                    food.DocumentPath = $"{documentPath}/${item.Id}";
+
+                    foodsList.Add(food);
+                }
+
+
+                return foodsList;
+            }
+
+            return Enumerable.Empty<Food>();
+        }
+    }
+
+    public static class ObjectToDictionaryHelper
+    {
+        public static IDictionary<string, object> ToDictionary(this object source)
+        {
+            return source.ToDictionary<object>();
+        }
+
+        public static IDictionary<string, T> ToDictionary<T>(this object source)
+        {
+            if (source == null) ThrowExceptionWhenSourceArgumentIsNull();
+
+            var dictionary = new Dictionary<string, T>();
+            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(source))
+            {
+                object value = property.GetValue(source);
+                if (IsOfType<T>(value))
+                {
+                    dictionary.Add(property.Name, (T)value);
+                }
+            }
+            return dictionary;
+        }
+
+        private static bool IsOfType<T>(object value)
+        {
+            return value is T;
+        }
+
+        private static void ThrowExceptionWhenSourceArgumentIsNull()
+        {
+            throw new NullReferenceException("Unable to convert anonymous object to a dictionary. The source anonymous object is null.");
         }
     }
 }

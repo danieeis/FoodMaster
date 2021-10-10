@@ -2,6 +2,7 @@
 using FoodMaster.Models;
 using FoodMaster.Services;
 using FoodMaster.Views;
+using FoodMaster.Views.Recipes;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -53,7 +54,8 @@ namespace FoodMaster.ViewModels
 
         private void OpenGastronomy(Gastronomy category)
         {
-
+            Shell.Current.GoToAsync(nameof(RecipeCategory));
+            //await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
         }
 
         private async Task GetAllCategories()
