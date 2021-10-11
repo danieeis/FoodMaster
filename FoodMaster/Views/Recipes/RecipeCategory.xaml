@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="FoodMaster.Views.RecipeCategory"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:FoodMaster.ViewModels"
+    Title="{Binding Title}"
+    BackgroundColor="{DynamicResource BackgroundColor}">
+    <ContentPage.BindingContext>
+        <vm:RecipeCategoryViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <Grid
+            Padding="10"
+            ColumnDefinitions="Auto"
+            ColumnSpacing="10"
+            RowDefinitions="Auto,Auto"
+            RowSpacing="10">
+            <Frame
+                Padding="0"
+                CornerRadius="20"
+                HasShadow="False"
+                HeightRequest="200">
+                <Grid>
+                    <Image
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Aspect="AspectFill"
+                        HorizontalOptions="FillAndExpand"
+                        Source="{Binding CategoryImage}"
+                        VerticalOptions="FillAndExpand" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        BackgroundColor="#90FFFFFF"
+                        FontSize="Title"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding CategoryType}"
+                        TextColor="Black"
+                        TextTransform="Uppercase"
+                        VerticalOptions="FillAndExpand"
+                        VerticalTextAlignment="Center" />
+                </Grid>
+            </Frame>
+            <RefreshView
+                Grid.Row="1"
+                Grid.Column="0"
+                IsRefreshing="{Binding IsBusy}">
+                <CollectionView ItemsSource="{Binding Foods}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="10"
+                            Orientation="Vertical"
+                            Span="2"
+                            VerticalItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame
+                                Padding="0"
+                                CornerRadius="20"
+                                HasShadow="False">
+                                <StackLayout>
+                                    <Image
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Aspect="AspectFill"
+                                        HorizontalOptions="FillAndExpand"
+                                        Source="{Binding Image}"
+                                        VerticalOptions="FillAndExpand" />
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="10"
+                                        BackgroundColor="White"
+                                        HorizontalOptions="FillAndExpand"
+                                        Text="{Binding Name}"
+                                        TextColor="{DynamicResource TextColor}"
+                                        VerticalOptions="End" />
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

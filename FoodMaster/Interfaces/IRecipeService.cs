@@ -9,5 +9,8 @@ namespace FoodMaster.Interfaces
     {
         Task<IEnumerable<Gastronomy>> GetNationalCategories();
         Task<IEnumerable<Gastronomy>> GetInternationalCategories();
+        Task<Food> GetFood(string documentPath);
+        Task<Gastronomy> GetGastronomy(string documentPath);
+        Task<IEnumerable<Food>> GetFoods(string documentPath);
     }
 }
