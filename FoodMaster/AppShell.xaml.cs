@@ -8,7 +8,7 @@ namespace FoodMaster
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute("categories", typeof(RecipeCategory));
+            Routing.RegisterRoute("categorydetail", typeof(RecipeCategory));
             Routing.RegisterRoute("fooddetail", typeof(FoodDetail));
         }
     }
