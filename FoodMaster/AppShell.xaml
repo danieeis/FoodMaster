@@ -38,7 +38,7 @@
             Route="AboutPage" />
         <ShellContent
             Title="Historial"
-            ContentTemplate="{DataTemplate local:RecipeHome}"
+            ContentTemplate="{DataTemplate local:HistoryPage}"
             Icon="icon_feed.png" />
         <ShellContent
             Title="Contacto"

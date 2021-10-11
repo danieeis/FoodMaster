@@ -25,6 +25,7 @@ namespace FoodMaster.Droid.Services
                 {
                     Gastronomy gastronomy = new Gastronomy();
                     gastronomy.Id = item.Id;
+                    gastronomy.Order = int.Parse(item.GetString("order"));
                     gastronomy.Type = item.GetString("gastronomia");
                     gastronomy.Name = item.GetString("name");
                     gastronomy.Image = item.GetString("image");
@@ -51,6 +52,7 @@ namespace FoodMaster.Droid.Services
                 {
                     Gastronomy gastronomy = new Gastronomy();
                     gastronomy.Id = item.Id;
+                    gastronomy.Order = int.Parse(item.GetString("order"));
                     gastronomy.Type = item.GetString("gastronomia");
                     gastronomy.Name = item.GetString("name");
                     gastronomy.Image = item.GetString("image");

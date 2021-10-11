@@ -87,6 +87,9 @@
                                                 TextColor="White"
                                                 VerticalOptions="End" />
                                         </Grid>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RecipeHomeViewModel}}, Path=OpenCategory}" CommandParameter="{Binding .}" />
+                                        </Frame.GestureRecognizers>
                                     </Frame>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>

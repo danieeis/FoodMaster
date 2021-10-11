@@ -4,6 +4,7 @@ using FoodMaster.Services;
 using FoodMaster.Views;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -63,8 +64,8 @@ namespace FoodMaster.ViewModels
             var internationals = await _recipeService.GetInternationalCategories();
             var nationals = await _recipeService.GetNationalCategories();
 
-            InternationalCategories = new ObservableCollection<Gastronomy>(internationals);
-            NationalCategories = new ObservableCollection<Gastronomy>(nationals);
+            InternationalCategories = new ObservableCollection<Gastronomy>(internationals.OrderBy(x => x.Order));
+            NationalCategories = new ObservableCollection<Gastronomy>(nationals.OrderBy(x => x.Order));
             IsBusy = false;
         }
     }
