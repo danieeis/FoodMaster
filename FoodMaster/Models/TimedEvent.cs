@@ -6,7 +6,7 @@ namespace FoodMaster.Models
 {
     public class TimedEvent : ITimedEvent
     {
-        readonly Stopwatch _stopwatch = new();
+        readonly Stopwatch _stopwatch = new Stopwatch();
         readonly string _trackIdentifier;
         readonly IAnalyticsService _analyticsService;
 
