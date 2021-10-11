@@ -53,7 +53,8 @@ namespace FoodMaster.ViewModels
 
         private void OpenGastronomy(Gastronomy category)
         {
-            Shell.Current.GoToAsync($"{nameof(RecipeCategory)}?{nameof(RecipeCategoryViewModel.CategoryImage)}={category.Image}&{nameof(RecipeCategoryViewModel.CategoryName)}={category.Name}&{nameof(RecipeCategoryViewModel.CategoryPath)}={category.DocumentPath}");
+            Shell.Current.GoToAsync($"{nameof(RecipeCategory)}?" +
+                $"id={category.DocumentPath}");
         }
 
         private async Task GetAllCategories()

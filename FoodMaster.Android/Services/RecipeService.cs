@@ -28,7 +28,7 @@ namespace FoodMaster.Droid.Services
                     gastronomy.Type = item.GetString("gastronomia");
                     gastronomy.Name = item.GetString("name");
                     gastronomy.Image = item.GetString("image");
-                    gastronomy.DocumentPath = $"internacionales/{item.Id}/platos";
+                    gastronomy.DocumentPath = $"internacionales/{item.Id}";
 
                     gastronomies.Add(gastronomy);
                 }
@@ -54,7 +54,7 @@ namespace FoodMaster.Droid.Services
                     gastronomy.Type = item.GetString("gastronomia");
                     gastronomy.Name = item.GetString("name");
                     gastronomy.Image = item.GetString("image");
-                    gastronomy.DocumentPath = $"nacionales/{item.Id}/platos";
+                    gastronomy.DocumentPath = $"nacionales/{item.Id}";
 
                     gastronomies.Add(gastronomy);
                 }
@@ -83,10 +83,10 @@ namespace FoodMaster.Droid.Services
                     food.Image = item.GetString("image");
                     food.Level = item.GetString("nivel");
                     food.Timing = item.GetString("tiempo");
-                    food.Tips = (string[]) item.Get("consejos");
-                    food.Preparation = (string[])item.Get("preparacion");
-                    food.NutritionalValue = (Dictionary<string,string>) item.Get("valor_nutrional").ToDictionary<string>();
-                    food.Ingredients = (Dictionary<string, string>) item.Get("valor_nutrional").ToDictionary<string>();
+                    //food.Tips = (string[]) item.Get("consejos");
+                    //food.Preparation = (string[])item.Get("preparacion");
+                    //food.NutritionalValue = (Dictionary<string,string>) item.Get("valor_nutrional").ToDictionary<string>();
+                    //food.Ingredients = (Dictionary<string, string>) item.Get("valor_nutrional").ToDictionary<string>();
                     food.DocumentPath = $"{documentPath}/${item.Id}";
 
                     foodsList.Add(food);
@@ -97,6 +97,31 @@ namespace FoodMaster.Droid.Services
             }
 
             return Enumerable.Empty<Food>();
+        }
+
+        public Task<Food> GetFood(string documentPath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Gastronomy> GetGastronomy(string documentPath)
+        {
+            var categories = await FirebaseFirestore.Instance.Document(documentPath).Get().ToAwaitableTask();
+
+            if (categories is DocumentSnapshot item)
+            {
+                Gastronomy gastronomy = new Gastronomy();
+                gastronomy.Id = item.Id;
+                gastronomy.Type = item.GetString("gastronomia");
+                gastronomy.Name = item.GetString("name");
+                gastronomy.Image = item.GetString("image");
+                gastronomy.DocumentPath = $"{documentPath}";
+
+
+                return gastronomy;
+            }
+
+            return new Gastronomy();
         }
     }
 
