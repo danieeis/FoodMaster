@@ -18,8 +18,10 @@
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
-    <AndroidUseAapt2>true</AndroidUseAapt2>
+    <MandroidI18n>cjk;mideast;other;rare;west</MandroidI18n>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
+    <AutomaticVersionBehavior>PreferBuildNumber</AutomaticVersionBehavior>
+    <AndroidSupportedAbis>armeabi-v7a;arm64-v8a;x86;x86_64</AndroidSupportedAbis>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -32,16 +34,48 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidDexTool>d8</AndroidDexTool>
+    <AndroidUseAapt2>true</AndroidUseAapt2>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>portable</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AotAssemblies>true</AotAssemblies>
+    <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
+    <AndroidUseAapt2>true</AndroidUseAapt2>
+    <EnableLLVM>true</EnableLLVM>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidTlsProvider>btls</AndroidTlsProvider>
+    <AndroidDexTool>d8</AndroidDexTool>
+    <AndroidLinkTool>r8</AndroidLinkTool>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|AnyCPU' ">
+    <DebugType></DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\AppStore</OutputPath>
+    <DefineConstants>AppStore</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <AotAssemblies>true</AotAssemblies>
+    <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
+    <AndroidUseAapt2>true</AndroidUseAapt2>
+    <EnableLLVM>true</EnableLLVM>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidTlsProvider>btls</AndroidTlsProvider>
+    <AndroidDexTool>d8</AndroidDexTool>
+    <AndroidLinkTool>r8</AndroidLinkTool>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -273,6 +307,15 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\online_class.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProguardConfiguration Include="proguard.cfg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidEnvironment Include="GarbageCollector.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <LinkDescription Include="linker.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
