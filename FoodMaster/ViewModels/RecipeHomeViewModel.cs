@@ -52,9 +52,9 @@ namespace FoodMaster.ViewModels
             App.Current.MainPage = new LoginPage();
         }
 
-        private void OpenGastronomy(Gastronomy category)
+        private async void OpenGastronomy(Gastronomy category)
         {
-            Shell.Current.GoToAsync($"{nameof(RecipeCategory)}?" +
+            await Shell.Current.GoToAsync($"{nameof(RecipeCategory)}?" +
                 $"id={category.DocumentPath}");
         }
 

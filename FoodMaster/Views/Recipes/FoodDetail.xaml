@@ -2,6 +2,52 @@
 <ContentPage
     x:Class="FoodMaster.Views.FoodDetail"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <ContentPage.Content />
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:vm="clr-namespace:FoodMaster.ViewModels"
+    Title="{Binding Title}"
+    BackgroundColor="{DynamicResource BackgroundColor}">
+    <ContentPage.BindingContext>
+        <vm:FoodDetailViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <ff:CachedImage HorizontalOptions="FillAndExpand" Source="https://www.wallpapersdsc.net/wp-content/uploads/2016/09/Junk-Food-Pictures.jpg" />
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        Padding="10"
+                        FontSize="32"
+                        LineBreakMode="WordWrap"
+                        Text="Comidas Nacionales" />
+                    <BoxView HeightRequest="1" Color="Orange" />
+                    <Label
+                        FontSize="24"
+                        HorizontalOptions="FillAndExpand"
+                        Text="Sopa seca" />
+                </StackLayout>
+                <StackLayout>
+                    <Frame
+                        BackgroundColor="Orange"
+                        BorderColor="{DynamicResource TextColor}"
+                        CornerRadius="20"
+                        HasShadow="False">
+                        <StackLayout Orientation="Horizontal">
+                            <BoxView HeightRequest="10" />
+                            <Label Text="Intermedio" />
+                        </StackLayout>
+                    </Frame>
+                    <Frame
+                        BackgroundColor="Orange"
+                        BorderColor="{DynamicResource TextColor}"
+                        CornerRadius="20"
+                        HasShadow="False">
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="De 15 a 20 minutos" />
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
 </ContentPage>

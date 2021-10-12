@@ -62,7 +62,10 @@
                                 CornerRadius="20"
                                 HasShadow="False"
                                 HeightRequest="200">
-                                <StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RecipeCategoryViewModel}}, Path=OpenFood}" CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
+                                <Grid>
                                     <Image
                                         Grid.Row="0"
                                         Grid.Column="0"
@@ -79,7 +82,7 @@
                                         Text="{Binding Name}"
                                         TextColor="{DynamicResource TextColor}"
                                         VerticalOptions="End" />
-                                </StackLayout>
+                                </Grid>
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

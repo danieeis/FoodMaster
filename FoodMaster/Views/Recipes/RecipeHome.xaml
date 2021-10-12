@@ -71,6 +71,7 @@
                                     <Frame
                                         Padding="0"
                                         CornerRadius="20"
+                                        HasShadow="False"
                                         HeightRequest="200">
                                         <Grid>
                                             <Image

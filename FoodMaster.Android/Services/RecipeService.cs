@@ -83,13 +83,13 @@ namespace FoodMaster.Droid.Services
                     food.Category = item.GetString("categoria");
                     food.Name = item.GetString("name");
                     food.Image = item.GetString("image");
-                    food.Level = item.GetString("nivel");
-                    food.Timing = item.GetString("tiempo");
+                    food.Level = item.GetString("nivel_preparacion");
+                    food.Timing = item.GetString("tiempo_preparacion");
                     //food.Tips = (string[]) item.Get("consejos");
                     //food.Preparation = (string[])item.Get("preparacion");
                     //food.NutritionalValue = (Dictionary<string,string>) item.Get("valor_nutrional").ToDictionary<string>();
-                    //food.Ingredients = (Dictionary<string, string>) item.Get("valor_nutrional").ToDictionary<string>();
-                    food.DocumentPath = $"{documentPath}/${item.Id}";
+                    //food.Ingredients = (Dictionary<string, string>) item.Get("ingredientes").ToDictionary<string>();
+                    food.DocumentPath = $"{documentPath}/{item.Id}";
 
                     foodsList.Add(food);
                 }
@@ -101,9 +101,31 @@ namespace FoodMaster.Droid.Services
             return Enumerable.Empty<Food>();
         }
 
-        public Task<Food> GetFood(string documentPath)
+        public async Task<Food> GetFood(string documentPath)
         {
-            throw new NotImplementedException();
+            var foodDoc = await FirebaseFirestore.Instance.Document(documentPath).Get().ToAwaitableTask();
+
+            if (foodDoc is DocumentSnapshot item)
+            {
+                Food food = new Food();
+                food.Id = item.Id;
+                food.Type = item.GetString("gastronomia");
+                food.Category = item.GetString("categoria");
+                food.Name = item.GetString("name");
+                food.Image = item.GetString("image");
+                food.Level = item.GetString("nivel_preparacion");
+                food.Timing = item.GetString("tiempo_preparacion");
+                //food.Tips = (string[]) item.Get("consejos");
+                //food.Preparation = (string[])item.Get("preparacion");
+                //food.NutritionalValue = (Dictionary<string,string>) item.Get("valor_nutrional").ToDictionary<string>();
+                //food.Ingredients = (Dictionary<string, string>) item.Get("ingredientes").ToDictionary<string>();
+                food.DocumentPath = $"{documentPath}";
+
+
+                return food;
+            }
+
+            return new Food();
         }
 
         public async Task<Gastronomy> GetGastronomy(string documentPath)
