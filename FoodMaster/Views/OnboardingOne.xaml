@@ -19,7 +19,7 @@
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout VerticalOptions="EndAndExpand">
-                            <Label FontSize="28" Text="{Binding Title}" />
+                            <Label FontSize="38" Text="{Binding Title}" />
 
                             <Image
                                 Aspect="AspectFit"
@@ -28,9 +28,9 @@
                                 Source="{Binding Image}" />
                             <Label
                                 FontAttributes="Bold"
-                                FontSize="24"
+                                FontSize="32"
                                 Text="{Binding Subtitle}" />
-                            <Label FontSize="Caption" Text="{Binding Text}" />
+                            <Label FontSize="16" Text="{Binding Text}" />
                         </StackLayout>
                     </DataTemplate>
                 </CarouselView.ItemTemplate>

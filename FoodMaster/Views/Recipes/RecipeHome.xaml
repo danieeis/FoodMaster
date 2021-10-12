@@ -17,7 +17,7 @@
 
     <ContentPage.Content>
         <Grid
-            Padding="0,20"
+            Padding="0,20,0,0"
             ColumnDefinitions="Auto"
             ColumnSpacing="10"
             RowDefinitions="Auto,*"
@@ -58,7 +58,7 @@
                     TextColorSelected="{DynamicResource Accent}"
                     VerticalOptions="FillAndExpand">
                     <RefreshView IsRefreshing="{Binding IsBusy}">
-                        <CollectionView Margin="10" ItemsSource="{Binding NationalCategories}">
+                        <CollectionView Margin="10,10,10,0" ItemsSource="{Binding NationalCategories}">
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout
                                     HorizontalItemSpacing="10"
@@ -68,7 +68,10 @@
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame Padding="0" CornerRadius="20">
+                                    <Frame
+                                        Padding="0"
+                                        CornerRadius="20"
+                                        HeightRequest="200">
                                         <Grid>
                                             <Image
                                                 Grid.Row="0"
@@ -106,7 +109,7 @@
                     TextColorSelected="{DynamicResource Accent}"
                     VerticalOptions="FillAndExpand">
                     <RefreshView IsRefreshing="{Binding IsBusy}">
-                        <CollectionView Margin="10" ItemsSource="{Binding InternationalCategories}">
+                        <CollectionView Margin="10,10,10,0" ItemsSource="{Binding InternationalCategories}">
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout
                                     HorizontalItemSpacing="10"
@@ -116,7 +119,10 @@
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame Padding="0" CornerRadius="20">
+                                    <Frame
+                                        Padding="0"
+                                        CornerRadius="20"
+                                        HeightRequest="200">
                                         <Grid>
                                             <Image
                                                 Grid.Row="0"
