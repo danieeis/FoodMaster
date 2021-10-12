@@ -18,20 +18,23 @@
                     <Label
                         Padding="10"
                         FontSize="32"
+                        HorizontalOptions="FillAndExpand"
                         LineBreakMode="WordWrap"
                         Text="Comidas Nacionales" />
-                    <BoxView HeightRequest="1" Color="Orange" />
+                    <BoxView WidthRequest="5" Color="Orange" />
                     <Label
+                        Padding="10"
                         FontSize="24"
                         HorizontalOptions="FillAndExpand"
                         Text="Sopa seca" />
                 </StackLayout>
-                <StackLayout>
+                <StackLayout Orientation="Horizontal">
                     <Frame
                         BackgroundColor="Orange"
                         BorderColor="{DynamicResource TextColor}"
                         CornerRadius="20"
-                        HasShadow="False">
+                        HasShadow="False"
+                        HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal">
                             <BoxView HeightRequest="10" />
                             <Label Text="Intermedio" />
@@ -41,11 +44,27 @@
                         BackgroundColor="Orange"
                         BorderColor="{DynamicResource TextColor}"
                         CornerRadius="20"
-                        HasShadow="False">
+                        HasShadow="False"
+                        HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal">
-                            <Label Text="De 15 a 20 minutos" />
+                            <Label
+                                FontSize="18"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                Text="De 15 a 20 minutos" />
                         </StackLayout>
                     </Frame>
+                </StackLayout>
+
+                <StackLayout Margin="10" Orientation="Horizontal">
+                    <StackLayout Orientation="Horizontal">
+                        <BoxView WidthRequest="40" Color="Green" />
+                        <Label Text="Ingredientes" VerticalTextAlignment="Center" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <BoxView WidthRequest="40" Color="Green" />
+                        <Label Text="2 personas" VerticalTextAlignment="Center" />
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
         </ScrollView>
