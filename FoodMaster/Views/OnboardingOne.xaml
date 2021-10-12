@@ -26,7 +26,10 @@
                                 HeightRequest="300"
                                 IsAnimationPlaying="{Binding IsAnimated}"
                                 Source="{Binding Image}" />
-                            <Label FontSize="22" Text="{Binding Subtitle}" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="24"
+                                Text="{Binding Subtitle}" />
                             <Label FontSize="Caption" Text="{Binding Text}" />
                         </StackLayout>
                     </DataTemplate>
