@@ -10,10 +10,21 @@
     <ContentPage.BindingContext>
         <vm:FoodDetailViewModel />
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <Style TargetType="Frame" x:Key="Boxes">
+            <Setter Property="BackgroundColor" Value="Orange"/>
+            <Setter Property="BorderColor" Value="{DynamicResource TextColor}"/>
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="HasShadow" Value="False"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        </Style>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
+                <!--Imagen-->
                 <ff:CachedImage HorizontalOptions="FillAndExpand" Source="https://www.wallpapersdsc.net/wp-content/uploads/2016/09/Junk-Food-Pictures.jpg" />
+                <!--Titulos-->
                 <StackLayout Orientation="Horizontal">
                     <Label
                         Padding="10"
@@ -28,24 +39,21 @@
                         HorizontalOptions="FillAndExpand"
                         Text="Sopa seca" />
                 </StackLayout>
-                <StackLayout Orientation="Horizontal">
+                <!--Grid-->
+                <Grid ColumnDefinitions="2*,*" RowDefinitions="*,*">
+                    <!--Nivel-->
                     <Frame
-                        BackgroundColor="Orange"
-                        BorderColor="{DynamicResource TextColor}"
-                        CornerRadius="20"
-                        HasShadow="False"
-                        HorizontalOptions="FillAndExpand">
+                        Grid.Row="0" Grid.Column="0"
+                        Style="{StaticResource Boxes}">
                         <StackLayout Orientation="Horizontal">
                             <BoxView HeightRequest="10" />
                             <Label Text="Intermedio" />
                         </StackLayout>
                     </Frame>
+                    <!--Tiempo de preparacion-->
                     <Frame
-                        BackgroundColor="Orange"
-                        BorderColor="{DynamicResource TextColor}"
-                        CornerRadius="20"
-                        HasShadow="False"
-                        HorizontalOptions="FillAndExpand">
+                        Grid.Row="0" Grid.Column="1"
+                        Style="{StaticResource Boxes}">
                         <StackLayout Orientation="Horizontal">
                             <Label
                                 FontSize="18"
@@ -54,18 +62,51 @@
                                 Text="De 15 a 20 minutos" />
                         </StackLayout>
                     </Frame>
-                </StackLayout>
-
-                <StackLayout Margin="10" Orientation="Horizontal">
-                    <StackLayout Orientation="Horizontal">
+                    <!--Titulo Ingredientes-->
+                    <StackLayout  Grid.Row="1" Grid.Column="0"  Orientation="Horizontal">
                         <BoxView WidthRequest="40" Color="Green" />
                         <Label Text="Ingredientes" VerticalTextAlignment="Center" />
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal">
+                    <!--Titulo Porciones-->
+                    <StackLayout  Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
                         <BoxView WidthRequest="40" Color="Green" />
                         <Label Text="2 personas" VerticalTextAlignment="Center" />
                     </StackLayout>
-                </StackLayout>
+                    <!--Ingredientes-->
+                    <Frame  Grid.Row="2" Grid.Column="0" 
+                        Style="{StaticResource Boxes}">
+                        
+                    </Frame>
+                    <!--Porciones-->
+                    <Frame  Grid.Row="2" Grid.Column="1" 
+                        Style="{StaticResource Boxes}">
+
+                    </Frame>
+
+                    <!--Titulo Consejos-->
+                    <StackLayout  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                        <BoxView WidthRequest="40" Color="Green" />
+                        <Label Text="Consejos antes de comenzar" VerticalTextAlignment="Center" />
+                    </StackLayout>
+                    <!--Consejos-->
+                    <Frame  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
+                        Style="{StaticResource Boxes}">
+
+                    </Frame>
+
+
+                    <!--Titulo Preparacion-->
+                    <StackLayout  Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                        <BoxView WidthRequest="40" Color="Green" />
+                        <Label Text="Preparacion" VerticalTextAlignment="Center" />
+                    </StackLayout>
+                    <!--Preparacion-->
+                    <Frame  Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" 
+                        Style="{StaticResource Boxes}">
+
+                    </Frame>
+                </Grid>
+                
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
