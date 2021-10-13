@@ -3,7 +3,7 @@
     x:Class="FoodMaster.Views.RecipeHome"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:ff1="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:vm="clr-namespace:FoodMaster.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="{Binding Title}"
@@ -35,9 +35,9 @@
                         <Label Text="¡Aprende de los profesionales de la cocina!" />
                     </StackLayout>
 
-                    <ff1:SvgCachedImage
+                    <ff:CachedImage
                         HorizontalOptions="EndAndExpand"
-                        Source="online_class.svg"
+                        Source="online_class.png"
                         WidthRequest="100" />
                 </StackLayout>
             </Frame>
@@ -71,6 +71,7 @@
                                     <Frame
                                         Padding="0"
                                         CornerRadius="20"
+                                        HasShadow="False"
                                         HeightRequest="200">
                                         <Grid>
                                             <Image

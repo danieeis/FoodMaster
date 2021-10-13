@@ -2,6 +2,240 @@
 <ContentPage
     x:Class="FoodMaster.Views.FoodDetail"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <ContentPage.Content />
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:vm="clr-namespace:FoodMaster.ViewModels"
+    Title="{Binding Title}"
+    BackgroundColor="{DynamicResource BackgroundColor}">
+    <ContentPage.BindingContext>
+        <vm:FoodDetailViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <Style x:Key="Boxes" TargetType="Frame">
+            <Setter Property="BackgroundColor" Value="Orange" />
+            <Setter Property="CornerRadius" Value="10" />
+            <Setter Property="HasShadow" Value="False" />
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        </Style>
+        <Style x:Key="PortionLabels" TargetType="Label">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Margin" Value="5,0" />
+        </Style>
+        <Style x:Key="PortionTitleLabels" TargetType="Label">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="BackgroundColor" Value="DarkOrange" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+        <Style x:Key="Icons" TargetType="ff:CachedImage">
+            <Setter Property="WidthRequest" Value="20" />
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <!--  Imagen  -->
+                <ff:CachedImage HorizontalOptions="FillAndExpand" Source="{Binding Image}" />
+                <!--  Titulos  -->
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        Padding="10"
+                        FontSize="32"
+                        HorizontalOptions="FillAndExpand"
+                        LineBreakMode="WordWrap"
+                        Text="{Binding Category}" />
+                    <BoxView WidthRequest="5" Color="Orange" />
+                    <Label
+                        Padding="10"
+                        FontSize="24"
+                        HorizontalOptions="FillAndExpand"
+                        Text="{Binding Name}" />
+                </StackLayout>
+                <!--  Grid  -->
+                <Grid
+                    Margin="10"
+                    ColumnDefinitions="1.5*,*"
+                    RowDefinitions="Auto,*,Auto,*,*,*,*">
+                    <!--  Nivel  -->
+                    <Frame
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="10"
+                        BorderColor="{DynamicResource TextColor}"
+                        Style="{StaticResource Boxes}">
+                        <StackLayout Orientation="Horizontal">
+                            <BoxView HeightRequest="10" Color="Green" />
+                            <Label
+                                FontSize="22"
+                                Text="{Binding Level}"
+                                VerticalTextAlignment="Center" />
+                        </StackLayout>
+                    </Frame>
+                    <!--  Tiempo de preparacion  -->
+                    <Frame
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Padding="10"
+                        BorderColor="{DynamicResource TextColor}"
+                        Style="{StaticResource Boxes}">
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                FontSize="22"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Timing}"
+                                VerticalTextAlignment="Center" />
+                        </StackLayout>
+                    </Frame>
+                    <!--  Titulo Ingredientes  -->
+                    <StackLayout
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Orientation="Horizontal">
+                        <ff:CachedImage Source="cesta.png" Style="{StaticResource Icons}" />
+                        <Label Text="Ingredientes" VerticalTextAlignment="Center" />
+                    </StackLayout>
+                    <!--  Titulo Porciones  -->
+                    <StackLayout
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Orientation="Horizontal">
+                        <ff:CachedImage Source="add_people.png" Style="{StaticResource Icons}" />
+                        <Label Text="2 personas" VerticalTextAlignment="Center" />
+                        <ff:CachedImage Source="edit.png" Style="{StaticResource Icons}" />
+                    </StackLayout>
+                    <!--  Ingredientes  -->
+                    <Frame
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Style="{StaticResource Boxes}" />
+                    <!--  Porciones  -->
+                    <Frame
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Padding="0"
+                        Style="{StaticResource Boxes}">
+                        <Grid ColumnDefinitions="Auto,*,*" RowDefinitions="Auto,*,*,*,*,*,*,*,*">
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                Padding="10"
+                                FontSize="10"
+                                Text="Información nutricional" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Style="{StaticResource PortionTitleLabels}"
+                                Text="Valores energéticos" />
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Style="{StaticResource PortionLabels}"
+                                Text="732 kcal" />
+
+                            <Label
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Style="{StaticResource PortionTitleLabels}"
+                                Text="Grasas" />
+                            <Label
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                Style="{StaticResource PortionLabels}"
+                                Text="22.4 g" />
+
+                            <Label
+                                Grid.Row="5"
+                                Grid.Column="0"
+                                Style="{StaticResource PortionTitleLabels}"
+                                Text="Carbohídratos" />
+                            <Label
+                                Grid.Row="6"
+                                Grid.Column="0"
+                                Style="{StaticResource PortionLabels}"
+                                Text="19.9 g" />
+
+                            <Label
+                                Grid.Row="7"
+                                Grid.Column="0"
+                                Style="{StaticResource PortionTitleLabels}"
+                                Text="Proteínas" />
+                            <Label
+                                Grid.Row="8"
+                                Grid.Column="0"
+                                Style="{StaticResource PortionLabels}"
+                                Text="43.4 g" />
+
+                            <ff:CachedImage
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Source="berenjena.png"
+                                Style="{StaticResource Icons}" />
+                            <ff:CachedImage
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Source="naranja.png"
+                                Style="{StaticResource Icons}" />
+                            <ff:CachedImage
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Source="lechuga.png"
+                                Style="{StaticResource Icons}" />
+                            <ff:CachedImage
+                                Grid.Row="4"
+                                Grid.RowSpan="2"
+                                Grid.Column="2"
+                                Source="cebolla.png"
+                                Style="{StaticResource Icons}" />
+                            <ff:CachedImage
+                                Grid.Row="6"
+                                Grid.Column="1"
+                                Source="zanahoria.png"
+                                Style="{StaticResource Icons}" />
+                            <ff:CachedImage
+                                Grid.Row="7"
+                                Grid.RowSpan="2"
+                                Grid.Column="2"
+                                Source="limon.png"
+                                Style="{StaticResource Icons}" />
+                        </Grid>
+                    </Frame>
+
+                    <!--  Titulo Consejos  -->
+                    <StackLayout
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Orientation="Horizontal">
+                        <ff:CachedImage Source="cuaderno.png" Style="{StaticResource Icons}" />
+                        <Label Text="Consejos antes de comenzar" VerticalTextAlignment="Center" />
+                    </StackLayout>
+                    <!--  Consejos  -->
+                    <Frame
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Style="{StaticResource Boxes}" />
+
+
+                    <!--  Titulo Preparacion  -->
+                    <StackLayout
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Orientation="Horizontal">
+                        <ff:CachedImage Source="table.png" Style="{StaticResource Icons}" />
+                        <Label Text="Preparacion" VerticalTextAlignment="Center" />
+                    </StackLayout>
+                    <!--  Preparacion  -->
+                    <Frame
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Style="{StaticResource Boxes}" />
+                </Grid>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
 </ContentPage>

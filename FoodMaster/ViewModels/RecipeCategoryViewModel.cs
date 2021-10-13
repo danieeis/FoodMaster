@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using FoodMaster.Interfaces;
 using FoodMaster.Models;
+using FoodMaster.Views;
 using Xamarin.Forms;
 
 namespace FoodMaster.ViewModels
@@ -16,6 +17,8 @@ namespace FoodMaster.ViewModels
         string categoryName;
         string categoryPath;
         string categoryType;
+
+        public Command OpenFood { get; }
 
         public string CategoryImage
         {
@@ -51,6 +54,13 @@ namespace FoodMaster.ViewModels
         public RecipeCategoryViewModel()
         {
             _recipeService = DependencyService.Get<IRecipeService>();
+            OpenFood = new Command<Food>(OpenFoodAsync);
+        }
+
+        private async void OpenFoodAsync(Food food)
+        {
+            await Shell.Current.GoToAsync($"{nameof(FoodDetail)}?" +
+                $"id={food.DocumentPath}");
         }
 
         public async void ApplyQueryAttributes(IDictionary<string, string> query)
