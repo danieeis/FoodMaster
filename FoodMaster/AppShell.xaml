@@ -34,15 +34,15 @@
         <ShellContent
             Title="Recetas"
             ContentTemplate="{DataTemplate local:RecipeHome}"
-            Icon="icon_about.png"
+            Icon="recetas.png"
             Route="AboutPage" />
         <ShellContent
             Title="Historial"
             ContentTemplate="{DataTemplate local:HistoryPage}"
-            Icon="icon_feed.png" />
+            Icon="historial.png" />
         <ShellContent
             Title="Contacto"
             ContentTemplate="{DataTemplate local:AboutPage}"
-            Icon="icon_about.png" />
+            Icon="contacto.png" />
     </TabBar>
 </Shell>

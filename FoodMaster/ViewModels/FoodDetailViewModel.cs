@@ -9,6 +9,41 @@ namespace FoodMaster.ViewModels
     [QueryProperty("FoodId", "id")]
     public class FoodDetailViewModel : BaseViewModel, IQueryAttributable
     {
+        string _category;
+        public string Category
+        {
+            get => _category;
+            set => SetProperty(ref _category, value);
+        }
+
+        string _name;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+
+        string _level;
+        public string Level
+        {
+            get => _level;
+            set => SetProperty(ref _level, value);
+        }
+
+        string _timing;
+        public string Timing
+        {
+            get => _timing;
+            set => SetProperty(ref _timing, value);
+        }
+
+        string _image;
+        public string Image
+        {
+            get => _image;
+            set => SetProperty(ref _image, value);
+        }
+
         IRecipeService _recipeService;
         public FoodDetailViewModel()
         {
@@ -19,7 +54,11 @@ namespace FoodMaster.ViewModels
         {
             var id = HttpUtility.UrlDecode(query["id"]);
             var food = await _recipeService.GetFood(id);
-            Title = food.Name;
+            Name = Title = food.Name;
+            Category = food.Category;
+            Level = food.Level;
+            Timing = food.Timing;
+            Image = food.Image;
         }
     }
 }
