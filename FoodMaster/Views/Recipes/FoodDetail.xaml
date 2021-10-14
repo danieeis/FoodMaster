@@ -3,6 +3,7 @@
     x:Class="FoodMaster.Views.FoodDetail"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:FoodMaster.Converters"
     xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:vm="clr-namespace:FoodMaster.ViewModels"
     Title="{Binding Title}"
@@ -11,6 +12,7 @@
         <vm:FoodDetailViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Resources>
+        <converter:LevelImageConverter x:Key="LevelImageConverter" />
         <Style x:Key="Boxes" TargetType="Frame">
             <Setter Property="BackgroundColor" Value="Orange" />
             <Setter Property="CornerRadius" Value="10" />
@@ -35,22 +37,36 @@
         <ScrollView>
             <StackLayout>
                 <!--  Imagen  -->
-                <ff:CachedImage HorizontalOptions="FillAndExpand" Source="{Binding Image}" />
+                <ff:CachedImage
+                    Aspect="AspectFill"
+                    HeightRequest="240"
+                    HorizontalOptions="FillAndExpand"
+                    Source="{Binding Image}" />
                 <!--  Titulos  -->
-                <StackLayout Orientation="Horizontal">
+                <Grid ColumnDefinitions="*,Auto,1.2*">
                     <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
                         Padding="10"
                         FontSize="32"
                         HorizontalOptions="FillAndExpand"
                         LineBreakMode="WordWrap"
-                        Text="{Binding Category}" />
-                    <BoxView WidthRequest="5" Color="Orange" />
+                        MinimumWidthRequest="100"
+                        Text="{Binding Category}"
+                        WidthRequest="200" />
+                    <BoxView
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        WidthRequest="5"
+                        Color="Orange" />
                     <Label
+                        Grid.Row="0"
+                        Grid.Column="2"
                         Padding="10"
                         FontSize="24"
-                        HorizontalOptions="FillAndExpand"
+                        HorizontalOptions="End"
                         Text="{Binding Name}" />
-                </StackLayout>
+                </Grid>
                 <!--  Grid  -->
                 <Grid
                     Margin="10"
@@ -64,7 +80,7 @@
                         BorderColor="{DynamicResource TextColor}"
                         Style="{StaticResource Boxes}">
                         <StackLayout Orientation="Horizontal">
-                            <BoxView HeightRequest="10" Color="Green" />
+                            <ff:CachedImage Source="{Binding Level, Converter={StaticResource LevelImageConverter}}" Style="{StaticResource Icons}" />
                             <Label
                                 FontSize="22"
                                 Text="{Binding Level}"
