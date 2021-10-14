@@ -12,8 +12,6 @@ namespace FoodMaster.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
-
         bool isBusy = false;
         public bool IsBusy
         {

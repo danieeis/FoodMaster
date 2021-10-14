@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "188339160610",
+    "project_id": "recetapp-4501c",
+    "storage_bucket": "recetapp-4501c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188339160610:android:fc840df2fca18b73daac7b",
+        "android_client_info": {
+          "package_name": "com.danieeis.apps.food_master"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188339160610-vqmq08k4di635tprm6r8v865grfr58p8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd6CwqKm356hMa05psQbk_h0fjG2tkOsg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188339160610-vqmq08k4di635tprm6r8v865grfr58p8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

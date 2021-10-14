@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="FoodMaster.Views.LoginPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    BackgroundColor="{DynamicResource BackgroundColor}"
+    Shell.NavBarIsVisible="False"
+    mc:Ignorable="d">
+    <ContentPage.Resources>
+        <Style x:Key="CustomEntry" TargetType="Entry">
+            <Setter Property="Margin" Value="0,20" />
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
+            <Image
+                Aspect="AspectFit"
+                HeightRequest="300"
+                Source="{xct:ImageResource Id=FoodMaster.Resources.Images.logo.png}" />
+            <Label
+                FontSize="Title"
+                HorizontalTextAlignment="Center"
+                Text="Inicia sesión" />
+            <Entry
+                Keyboard="Email"
+                Placeholder="Correo eléctronico"
+                ReturnType="Next"
+                Style="{x:StaticResource CustomEntry}"
+                Text="{Binding Email}" />
+            <Entry
+                IsPassword="True"
+                Placeholder="Contraseña"
+                ReturnCommand="{Binding LoginCommand}"
+                ReturnType="Done"
+                Style="{x:StaticResource CustomEntry}"
+                Text="{Binding Password}" />
+            <Button
+                Command="{Binding LoginCommand}"
+                IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}"
+                Text="Ingresar"
+                VerticalOptions="Center" />
+            <StackLayout Orientation="Horizontal">
+                <Button
+                    BackgroundColor="#EA4335"
+                    Command="{Binding LoginWithGoogle}"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Google" />
+                <Button
+                    BackgroundColor="#3B5998"
+                    Command="{Binding LoginWithFacebook}"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Facebook" />
+            </StackLayout>
+            <Label HorizontalTextAlignment="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="¿No tienes una cuenta? Regístrate" />
+                        <Span Text=" " />
+                        <Span Text="aquí" TextDecorations="Underline">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoRegister}" />
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
