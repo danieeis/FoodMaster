@@ -87,7 +87,7 @@ namespace FoodMaster.Droid.Services
                     food.Timing = item.GetString("tiempo_preparacion");
                     //food.Tips = (string[]) item.Get("consejos");
                     //food.Preparation = (string[])item.Get("preparacion");
-                    //food.NutritionalValue = (Dictionary<string,string>) item.Get("valor_nutrional").ToDictionary<string>();
+                    //food.NutritionalValue = (Dictionary<string,string>) item.Get("valor_nutricional").ToDictionary<string>();
                     //food.Ingredients = (Dictionary<string, string>) item.Get("ingredientes").ToDictionary<string>();
                     food.DocumentPath = $"{documentPath}/{item.Id}";
 
@@ -115,9 +115,17 @@ namespace FoodMaster.Droid.Services
                 food.Image = item.GetString("image");
                 food.Level = item.GetString("nivel_preparacion");
                 food.Timing = item.GetString("tiempo_preparacion");
-                //food.Tips = (string[]) item.Get("consejos");
-                //food.Preparation = (string[])item.Get("preparacion");
-                //food.NutritionalValue = (Dictionary<string,string>) item.Get("valor_nutrional").ToDictionary<string>();
+                var consejos = item.Get("consejos");
+                if (consejos is Java.Util.ArrayList list)
+                {
+                    var lis = new List<string>(list.ToEnumerable<string>());
+                    var consejosCasting = consejos.CastTo<List<string>>();
+                }
+                
+                //food.Tips = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(consejos2);
+                
+                //food.Preparation = item.Get("preparacion").ToArray<string>();
+                //food.NutritionalValue = (Dictionary<string, string>)item.Get("valor_nutricional").ToDictionary<string>();
                 //food.Ingredients = (Dictionary<string, string>) item.Get("ingredientes").ToDictionary<string>();
                 food.DocumentPath = $"{documentPath}";
 
@@ -151,6 +159,17 @@ namespace FoodMaster.Droid.Services
 
     public static class ObjectToDictionaryHelper
     {
+        public static T CastTo<T>(this Java.Lang.Object obj) where T : class
+        {
+            var propertyInfo = obj.GetType().GetProperty("Instance");
+            if (obj is Java.Util.ArrayList list)
+            {
+                var lis = new List<string>(list.ToEnumerable<string>());
+            }
+            
+            return propertyInfo == null ? null : propertyInfo.GetValue(obj, null) as T;
+        }
+
         public static IDictionary<string, object> ToDictionary(this object source)
         {
             return source.ToDictionary<object>();
