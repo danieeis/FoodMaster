@@ -89,8 +89,8 @@ namespace FoodMaster.ViewModels
             set => SetProperty(ref _preparation, value);
         }
 
-        IEnumerable<PortionType> _availablePortions;
-        public IEnumerable<PortionType> AvailablePortions
+        ObservableCollection<PortionType> _availablePortions;
+        public ObservableCollection<PortionType> AvailablePortions
         {
             get => _availablePortions;
             set => SetProperty(ref _availablePortions, value);
@@ -116,6 +116,20 @@ namespace FoodMaster.ViewModels
             if (obj is PortionType portion)
             {
                 Ingredients = new ObservableCollection<string>(portion.Values);
+                foreach (var item in AvailablePortions)
+                {
+                    if(item.Key == PortionSelected.Key)
+                    {
+                        item.SelectedColor = Color.FromHex("#FB9F1C");
+                        item.Icon = item.GetIcon(true);
+                    }
+                    else
+                    {
+                        item.SelectedColor = Color.FromHex("#4B4A4A");
+                        item.Icon = item.GetIcon();
+                    }
+                    
+                }
             }
         }
 
@@ -129,11 +143,11 @@ namespace FoodMaster.ViewModels
             Timing = food.Timing;
             Image = food.Image;
             Tips = food.Tips.Select((text, i) => new TipDTO() { Index = i, Text = text });
-            AvailablePortions = food.Ingredients.Select((x) => new PortionType()
+            AvailablePortions = new ObservableCollection<PortionType>(food.Ingredients.Select((x) => new PortionType()
             {
                 Key = x.Key,
                 Values = x.Value
-            });
+            }).OrderBy(x => x.Index));
             CollectionViewMaxHeight = AvailablePortions.Count() * 60;
             PortionType selectedPortions = AvailablePortions.FirstOrDefault();
             Ingredients = new ObservableCollection<string>(selectedPortions.Values);

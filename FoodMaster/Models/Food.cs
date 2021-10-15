@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Xamarin.Forms;
 
 namespace FoodMaster.Models
 {
@@ -51,23 +54,31 @@ namespace FoodMaster.Models
         public string Value { get; set; }
     }
 
-    public class PortionType
+    public class PortionType : INotifyPropertyChanged
     {
         public string Key { get; set; }
 
         public List<string> Values { get; set; }
 
+        Color _selectedColor = Color.FromHex("#4B4A4A");
+        public Color SelectedColor
+        {
+            get => _selectedColor;
+            set => SetProperty(ref _selectedColor, value);
+        }
+
+        string _icon;
         public string Icon
+        {
+            get => _icon;
+            set => SetProperty(ref _icon, value);
+        }
+
+        public int Index
         {
             get
             {
-                switch (Key)
-                {
-                    case "1_porcion":
-                        return "person.png";
-                    default:
-                        return "bi_person.png";
-                }
+                return Key?.Length > 0 ? Key[0] : 0;
             }
         }
 
@@ -92,5 +103,53 @@ namespace FoodMaster.Models
                 }
             }
         }
+
+        public PortionType()
+        {
+            Icon = GetIcon();
+        }
+
+        public string GetIcon(bool selected = false)
+        {
+            string icon;
+            switch (Key)
+            {
+                case "1_porcion":
+                    icon = "person";
+                    break;
+                default:
+                    icon = "bi_person";
+                    break;
+            }
+
+            if (selected) icon += "_selected";
+
+            return icon + ".png";
+        }
+
+        protected bool SetProperty<T>(ref T backingStore, T value,
+            [CallerMemberName] string propertyName = "",
+            Action onChanged = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(backingStore, value))
+                return false;
+
+            backingStore = value;
+            onChanged?.Invoke();
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            var changed = PropertyChanged;
+            if (changed == null)
+                return;
+
+            changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
     }
 }

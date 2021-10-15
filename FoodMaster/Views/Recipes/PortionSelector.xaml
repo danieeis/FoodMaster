@@ -5,7 +5,28 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
     xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView">
+    <pages:PopupPage.Resources>
+        <Style TargetType="Frame">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#FDF2E3" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </pages:PopupPage.Resources>
     <pages:PopupPage.Animation>
         <animations:ScaleAnimation
             DurationIn="400"
@@ -18,10 +39,15 @@
             ScaleIn="1.2"
             ScaleOut="0.8" />
     </pages:PopupPage.Animation>
-    <Frame HorizontalOptions="FillAndExpand" VerticalOptions="End">
+    <yummy:PancakeView
+        Padding="20"
+        BackgroundColor="White"
+        CornerRadius="20,20,0,0"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="End">
         <StackLayout HorizontalOptions="FillAndExpand">
             <Label
-                FontSize="32"
+                FontSize="28"
                 HorizontalTextAlignment="Start"
                 Text="Porciones" />
             <Label FontSize="16" Text="Indique la cantidad de personas" />
@@ -32,16 +58,25 @@
                 SelectionMode="Single">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="10" Orientation="Horizontal">
-                            <ff:CachedImage
-                                Source="{Binding Icon}"
-                                Style="{StaticResource Icons}"
-                                WidthRequest="50" />
-                            <Label FontSize="28" Text="{Binding DisplayValue}" />
-                        </StackLayout>
+                        <Frame
+                            Padding="10"
+                            CornerRadius="10"
+                            HasShadow="False">
+                            <StackLayout Orientation="Horizontal">
+                                <ff:CachedImage
+                                    Source="{Binding Icon}"
+                                    Style="{StaticResource Icons}"
+                                    WidthRequest="30" />
+                                <Label
+                                    FontSize="24"
+                                    Text="{Binding DisplayValue}"
+                                    TextColor="{Binding SelectedColor, Mode=TwoWay}" />
+                            </StackLayout>
+                        </Frame>
+
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </StackLayout>
-    </Frame>
+    </yummy:PancakeView>
 </pages:PopupPage>

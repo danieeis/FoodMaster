@@ -26,6 +26,7 @@
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.13" />
+    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\" />
@@ -45,6 +46,7 @@
     <None Remove="Newtonsoft.Json" />
     <None Remove="Converters\" />
     <None Remove="Rg.Plugins.Popup" />
+    <None Remove="Xamarin.Forms.PancakeView" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
