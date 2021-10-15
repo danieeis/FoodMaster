@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using FoodMaster.Interfaces;
 using FoodMaster.Models;
+using FoodMaster.Services;
 using Xamarin.Forms;
 
 namespace FoodMaster.ViewModels
@@ -104,19 +105,24 @@ namespace FoodMaster.ViewModels
         }
 
         IRecipeService _recipeService;
+        IAuthenticationService _authenticationService;
         public Command<string> ChangePortionCommand { get; }
         public Command OpenWhatsappCommand { get; }
 
         public FoodDetailViewModel()
         {
             _recipeService = DependencyService.Get<IRecipeService>();
+            _authenticationService = DependencyService.Get<IAuthenticationService>();
             ChangePortionCommand = new Command<string>(ChangePortion);
             OpenWhatsappCommand = new Command(OpenWhatsapp);
         }
 
         private async void OpenWhatsapp(object obj)
         {
-            string text = HttpUtility.UrlEncode($"Estoy interesado en el plato {Name}");
+            string ingredients = string.Join("\n", Ingredients.Select(x=> $"• {x}"));
+            User user = _authenticationService.GetUserAsync();
+            string text = HttpUtility.UrlEncode($"Hola soy {user.Names}, mi correo es {user.Email}\n\nEstoy interesado en el plato de la gastronomia {Category} llamado {Name} para {PortionSelected.DisplayValue} \n\nLos ingredientes son: \n\n" +
+                $"{ingredients}");
             await Xamarin.Essentials.Browser.OpenAsync($"https://wa.me/584123079532?text={text}");
         }
 
