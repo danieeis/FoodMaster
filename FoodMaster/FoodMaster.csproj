@@ -25,6 +25,7 @@
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.4.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.13" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\" />
@@ -43,6 +44,7 @@
     <None Remove="Microsoft.AppCenter.Crashes" />
     <None Remove="Newtonsoft.Json" />
     <None Remove="Converters\" />
+    <None Remove="Rg.Plugins.Popup" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

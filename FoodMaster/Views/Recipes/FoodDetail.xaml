@@ -28,10 +28,6 @@
             <Setter Property="BackgroundColor" Value="DarkOrange" />
             <Setter Property="Padding" Value="5" />
         </Style>
-        <Style x:Key="Icons" TargetType="ff:CachedImage">
-            <Setter Property="WidthRequest" Value="20" />
-            <Setter Property="Margin" Value="2" />
-        </Style>
     </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
@@ -117,21 +113,33 @@
                         Grid.Column="1"
                         Orientation="Horizontal">
                         <ff:CachedImage Source="add_people.png" Style="{StaticResource Icons}" />
-                        <Label Text="2 personas" VerticalTextAlignment="Center" />
-                        <ff:CachedImage Source="edit.png" Style="{StaticResource Icons}" />
+                        <Label Text="{Binding PortionSelected.DisplayValue}" VerticalTextAlignment="Center" />
+                        <ff:CachedImage Source="edit.png" Style="{StaticResource Icons}">
+                            <ff:CachedImage.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="Button_Clicked" />
+                            </ff:CachedImage.GestureRecognizers>
+                        </ff:CachedImage>
                     </StackLayout>
                     <!--  Ingredientes  -->
                     <Frame
                         Grid.Row="2"
                         Grid.Column="0"
-                        Style="{StaticResource Boxes}" />
+                        Style="{StaticResource Boxes}">
+                        <CollectionView HeightRequest="240" ItemsSource="{Binding Ingredients}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Text="{Binding ., StringFormat='• {0}'}" />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Frame>
                     <!--  Porciones  -->
                     <Frame
                         Grid.Row="2"
                         Grid.Column="1"
                         Padding="0"
                         Style="{StaticResource Boxes}">
-                        <Grid ColumnDefinitions="Auto,*,*" RowDefinitions="Auto,*,*,*,*,*,*,*,*">
+                        <Grid ColumnDefinitions="Auto,*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                             <Label
                                 Grid.Row="0"
                                 Grid.Column="0"
@@ -139,49 +147,20 @@
                                 Padding="10"
                                 FontSize="10"
                                 Text="Información nutricional" />
-                            <Label
+                            <StackLayout
                                 Grid.Row="1"
+                                Grid.RowSpan="8"
                                 Grid.Column="0"
-                                Style="{StaticResource PortionTitleLabels}"
-                                Text="Valores energéticos" />
-                            <Label
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                Style="{StaticResource PortionLabels}"
-                                Text="732 kcal" />
-
-                            <Label
-                                Grid.Row="3"
-                                Grid.Column="0"
-                                Style="{StaticResource PortionTitleLabels}"
-                                Text="Grasas" />
-                            <Label
-                                Grid.Row="4"
-                                Grid.Column="0"
-                                Style="{StaticResource PortionLabels}"
-                                Text="22.4 g" />
-
-                            <Label
-                                Grid.Row="5"
-                                Grid.Column="0"
-                                Style="{StaticResource PortionTitleLabels}"
-                                Text="Carbohídratos" />
-                            <Label
-                                Grid.Row="6"
-                                Grid.Column="0"
-                                Style="{StaticResource PortionLabels}"
-                                Text="19.9 g" />
-
-                            <Label
-                                Grid.Row="7"
-                                Grid.Column="0"
-                                Style="{StaticResource PortionTitleLabels}"
-                                Text="Proteínas" />
-                            <Label
-                                Grid.Row="8"
-                                Grid.Column="0"
-                                Style="{StaticResource PortionLabels}"
-                                Text="43.4 g" />
+                                BindableLayout.ItemsSource="{Binding Portions}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackLayout>
+                                            <Label Style="{StaticResource PortionTitleLabels}" Text="{Binding Title}" />
+                                            <Label Style="{StaticResource PortionLabels}" Text="{Binding Value}" />
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
 
                             <ff:CachedImage
                                 Grid.Row="1"
@@ -236,7 +215,10 @@
                         <StackLayout BindableLayout.ItemsSource="{Binding Tips}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
-                                    <Label Text="{Binding ., StringFormat='· {0}'}" />
+                                    <StackLayout Orientation="Horizontal">
+                                        <ff:CachedImage Source="{Binding Icon}" Style="{StaticResource Icons}" />
+                                        <Label Text="{Binding Text}" />
+                                    </StackLayout>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </StackLayout>
@@ -261,7 +243,7 @@
                         <StackLayout BindableLayout.ItemsSource="{Binding Preparation}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
-                                    <Label Text="{Binding ., StringFormat='· {0}'}" />
+                                    <Label Text="{Binding ., StringFormat='• {0}'}" />
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </StackLayout>
