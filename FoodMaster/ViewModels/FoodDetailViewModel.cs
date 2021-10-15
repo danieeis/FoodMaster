@@ -105,10 +105,19 @@ namespace FoodMaster.ViewModels
 
         IRecipeService _recipeService;
         public Command<string> ChangePortionCommand { get; }
+        public Command OpenWhatsappCommand { get; }
+
         public FoodDetailViewModel()
         {
             _recipeService = DependencyService.Get<IRecipeService>();
             ChangePortionCommand = new Command<string>(ChangePortion);
+            OpenWhatsappCommand = new Command(OpenWhatsapp);
+        }
+
+        private async void OpenWhatsapp(object obj)
+        {
+            string text = HttpUtility.UrlEncode($"Estoy interesado en el plato {Name}");
+            await Xamarin.Essentials.Browser.OpenAsync($"https://wa.me/584123079532?text={text}");
         }
 
         private void ChangePortion(object obj)

@@ -23439,7 +23439,10 @@ namespace FoodMaster.Droid
 			public const int whatsapp = 2131165382;
 			
 			// aapt resource value: 0x7F0700C7
-			public const int zanahoria = 2131165383;
+			public const int whatsapp_white = 2131165383;
+			
+			// aapt resource value: 0x7F0700C8
+			public const int zanahoria = 2131165384;
 			
 			static Drawable()
 			{
