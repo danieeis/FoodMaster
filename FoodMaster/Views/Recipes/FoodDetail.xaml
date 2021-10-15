@@ -71,7 +71,7 @@
                 <Grid
                     Margin="10"
                     ColumnDefinitions="1.5*,*"
-                    RowDefinitions="Auto,*,Auto,*,*,*,*">
+                    RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                     <!--  Nivel  -->
                     <Frame
                         Grid.Row="0"
@@ -232,7 +232,15 @@
                         Grid.Row="4"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Style="{StaticResource Boxes}" />
+                        Style="{StaticResource Boxes}">
+                        <StackLayout BindableLayout.ItemsSource="{Binding Tips}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Text="{Binding ., StringFormat='· {0}'}" />
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                    </Frame>
 
 
                     <!--  Titulo Preparacion  -->
@@ -249,7 +257,15 @@
                         Grid.Row="6"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Style="{StaticResource Boxes}" />
+                        Style="{StaticResource Boxes}">
+                        <StackLayout BindableLayout.ItemsSource="{Binding Preparation}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Text="{Binding ., StringFormat='· {0}'}" />
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                    </Frame>
                 </Grid>
 
             </StackLayout>

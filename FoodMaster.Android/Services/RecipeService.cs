@@ -115,20 +115,26 @@ namespace FoodMaster.Droid.Services
                 food.Image = item.GetString("image");
                 food.Level = item.GetString("nivel_preparacion");
                 food.Timing = item.GetString("tiempo_preparacion");
-                var consejos = item.Get("consejos");
-                if (consejos is Java.Util.ArrayList list)
+                
+                if (item.Get("consejos") is Android.Runtime.JavaList consejos)
                 {
-                    var lis = new List<string>(list.ToEnumerable<string>());
-                    var consejosCasting = consejos.CastTo<List<string>>();
+                    food.Tips = consejos.ToList<string>();
                 }
-                
-                //food.Tips = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(consejos2);
-                
-                //food.Preparation = item.Get("preparacion").ToArray<string>();
-                //food.NutritionalValue = (Dictionary<string, string>)item.Get("valor_nutricional").ToDictionary<string>();
-                //food.Ingredients = (Dictionary<string, string>) item.Get("ingredientes").ToDictionary<string>();
+                if (item.Get("preparacion") is Android.Runtime.JavaList preparacion)
+                {
+                    food.Preparation = preparacion.ToList<string>();
+                }
+                if (item.Get("valor_nutricional") is Android.Runtime.JavaDictionary nutritional)
+                {
+                    food.NutritionalValue = nutritional.ToDictionary<string>();
+                }
+                if (item.Get("ingredientes") is Android.Runtime.JavaDictionary ingredients)
+                {
+                    food.Ingredients = ingredients.ToListDictionary<string>();
+                }
                 food.DocumentPath = $"{documentPath}";
 
+                
 
                 return food;
             }
@@ -159,46 +165,56 @@ namespace FoodMaster.Droid.Services
 
     public static class ObjectToDictionaryHelper
     {
-        public static T CastTo<T>(this Java.Lang.Object obj) where T : class
+        public static List<T> ToList<T>(this Android.Runtime.JavaList source)
         {
-            var propertyInfo = obj.GetType().GetProperty("Instance");
-            if (obj is Java.Util.ArrayList list)
+            var list = new List<T>();
+            foreach (var element in source)
             {
-                var lis = new List<string>(list.ToEnumerable<string>());
+                if (element is T value)
+                {
+                    list.Add(value);
+                }
             }
-            
-            return propertyInfo == null ? null : propertyInfo.GetValue(obj, null) as T;
+
+            return list;
         }
 
-        public static IDictionary<string, object> ToDictionary(this object source)
+        public static Dictionary<string, List<T>> ToListDictionary<T>(this Android.Runtime.JavaDictionary source)
         {
-            return source.ToDictionary<object>();
+            if (source == null) ThrowExceptionWhenSourceArgumentIsNull();
+
+            var dictionary = new Dictionary<string, List<T>>();
+            
+            foreach (System.Collections.DictionaryEntry item in source)
+            {
+                if (item.Value is Android.Runtime.JavaList value)
+                {
+                    dictionary.Add(item.Key.ToString(), value.ToList<T>());
+                }
+            }
+
+            return dictionary;
         }
 
-        public static IDictionary<string, T> ToDictionary<T>(this object source)
+        public static Dictionary<string, T> ToDictionary<T>(this Android.Runtime.JavaDictionary source)
         {
             if (source == null) ThrowExceptionWhenSourceArgumentIsNull();
 
             var dictionary = new Dictionary<string, T>();
-            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(source))
+            foreach (System.Collections.DictionaryEntry item in source)
             {
-                object value = property.GetValue(source);
-                if (IsOfType<T>(value))
+                if (item.Value is T value)
                 {
-                    dictionary.Add(property.Name, (T)value);
+                    dictionary.Add(item.Key.ToString(), value);
                 }
             }
+            
             return dictionary;
-        }
-
-        private static bool IsOfType<T>(object value)
-        {
-            return value is T;
         }
 
         private static void ThrowExceptionWhenSourceArgumentIsNull()
         {
-            throw new NullReferenceException("Unable to convert anonymous object to a dictionary. The source anonymous object is null.");
+            throw new NullReferenceException("Unable to convert object to a dictionary. The source object is null.");
         }
     }
 }

@@ -44,6 +44,21 @@ namespace FoodMaster.ViewModels
             set => SetProperty(ref _image, value);
         }
 
+        List<string> _tips;
+        public List<string> Tips
+        {
+            get => _tips;
+            set => SetProperty(ref _tips, value);
+        }
+
+        List<string> _preparation;
+        public List<string> Preparation
+        {
+            get => _preparation;
+            set => SetProperty(ref _preparation, value);
+        }
+
+
         IRecipeService _recipeService;
         public FoodDetailViewModel()
         {
@@ -59,6 +74,8 @@ namespace FoodMaster.ViewModels
             Level = food.Level;
             Timing = food.Timing;
             Image = food.Image;
+            Tips = food.Tips;
+            Preparation = food.Preparation;
         }
     }
 }
