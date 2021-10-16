@@ -144,7 +144,7 @@
                             Grid.Column="1"
                             Padding="0"
                             Style="{StaticResource Boxes}">
-                            <Grid ColumnDefinitions="Auto,*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                            <Grid ColumnDefinitions="Auto,*,*" RowDefinitions="Auto,*,*,*,*,*,*,*,Auto">
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="0"
@@ -156,6 +156,7 @@
                                     Grid.Row="1"
                                     Grid.RowSpan="8"
                                     Grid.Column="0"
+                                    Margin="0,4"
                                     BindableLayout.ItemsSource="{Binding Portions}">
                                     <BindableLayout.ItemTemplate>
                                         <DataTemplate>
@@ -195,7 +196,6 @@
                                     Style="{StaticResource Icons}" />
                                 <ff:CachedImage
                                     Grid.Row="7"
-                                    Grid.RowSpan="2"
                                     Grid.Column="2"
                                     Source="limon.png"
                                     Style="{StaticResource Icons}" />
@@ -261,7 +261,7 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 Margin="0,0,20,20"
-                Padding="20,10"
+                Padding="15,5"
                 BackgroundColor="#25D366"
                 CornerRadius="32"
                 HasShadow="False">
@@ -269,7 +269,7 @@
                     <ff:CachedImage
                         Source="whatsapp_white.png"
                         Style="{StaticResource Icons}"
-                        WidthRequest="50" />
+                        WidthRequest="30" />
                     <Label
                         Margin="10,0,0,0"
                         FontSize="Title"

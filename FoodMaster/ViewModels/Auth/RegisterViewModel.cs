@@ -31,42 +31,51 @@ namespace FoodMaster.ViewModels
             get => password;
             set => SetProperty(ref password, value);
         }
-        IAuthenticationService _authenticationService;
 
+        IAuthenticationService _authenticationService;
+        UserService _userService;
 
         public RegisterViewModel()
         {
             RegisterCommand = new Command(OnRegisterClicked);
             GoLogin = new Command(OnGoLoginClicked);
+            _userService = DependencyService.Get<UserService>();
             _authenticationService = DependencyService.Get<IAuthenticationService>();
+            _analyticsService = DependencyService.Get<IAnalyticsService>();
         }
 
         private async void OnRegisterClicked(object obj)
         {
+            _analyticsService.Track("want register");
             IsBusy = true;
             if (string.IsNullOrEmpty(Names))
             {
                 UserDialogs.Instance.Toast("Debe ingresar los nombres");
+                _analyticsService.Track("Register: Validate names");
                 IsBusy = false;
                 return;
             }
             if (string.IsNullOrEmpty(Email))
             {
                 UserDialogs.Instance.Toast("Debe ingresar el email");
+                _analyticsService.Track("Register: Validate email");
                 IsBusy = false;
                 return;
             }
             else if (string.IsNullOrEmpty(Password))
             {
                 UserDialogs.Instance.Toast("Debe ingresar la contraseña");
+                _analyticsService.Track("Register: Validate password");
                 IsBusy = false;
                 return;
             }
 
-            string token = await _authenticationService.RegisterWithEmailPassword(Email, Password);
+            string token = await _authenticationService.RegisterWithEmailPassword(Names, Email, Password);
             if (!string.IsNullOrEmpty(token))
             {
+                await _userService.SaveToken(token).ConfigureAwait(false);
                 App.Current.MainPage = new OnboardingOne();
+                _analyticsService.Track("Register with email success");
             }
             else
             {

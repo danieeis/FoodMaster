@@ -73,6 +73,12 @@ namespace FoodMaster.ViewModels
             CategoryType = gastronomy.Type;
             Title = CategoryName;
             await GetAllFoods();
+
+            _analyticsService.Track($"Tap: Categoria", new Dictionary<string, string>()
+            {
+                { "name", CategoryName },
+                { "type", CategoryType }
+            });
         }
 
         private async Task GetAllFoods()

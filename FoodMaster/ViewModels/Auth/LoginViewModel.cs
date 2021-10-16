@@ -25,6 +25,7 @@ namespace FoodMaster.ViewModels
         }
         IAuthenticationService _authenticationService;
         UserService _userService;
+        IAnalyticsService _analyticsService;
         
 
 
@@ -33,6 +34,7 @@ namespace FoodMaster.ViewModels
             LoginCommand = new Command(OnLoginClicked);
             GoRegister = new Command(OnGoRegisterClicked);
             _authenticationService = DependencyService.Get<IAuthenticationService>();
+            _analyticsService = DependencyService.Get<IAnalyticsService>();
             _userService = DependencyService.Get<UserService>();
 #if DEBUG
             Email = "danieldaniyyelda@gmail.com";
@@ -42,16 +44,19 @@ namespace FoodMaster.ViewModels
 
         private async void OnLoginClicked(object obj)
         {
+            _analyticsService.Track("want login");
             IsBusy = true;
             if (string.IsNullOrEmpty(Email))
             {
                 UserDialogs.Instance.Toast("Debe ingresar el email");
+                _analyticsService.Track("Login: Validate email");
                 IsBusy = false;
                 return;
             }
             else if (string.IsNullOrEmpty(Password))
             {
                 UserDialogs.Instance.Toast("Debe ingresar la contraseña");
+                _analyticsService.Track("Login: Validate password");
                 IsBusy = false;
                 return;
             }
@@ -60,23 +65,26 @@ namespace FoodMaster.ViewModels
             
             if (!string.IsNullOrEmpty(token))
             {
+                _analyticsService.Track("Login success");
                 await _userService.SaveToken(token).ConfigureAwait(false);
                 if (_userService.PassThroughOnboarding)
                 {
+                    _analyticsService.Track("Login to home directly");
                     App.Current.MainPage = new AppShell();
                 }
                 else
                 {
+                    _analyticsService.Track("Login to onboarding");
                     App.Current.MainPage = new OnboardingOne();
                 }
             }
             else
             {
+                _analyticsService.Track("Login failed");
                 UserDialogs.Instance.Toast("Credenciales inválidas");
             }
 
             IsBusy = false;
-            //await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
         }
 
         private void OnGoRegisterClicked(object obj)

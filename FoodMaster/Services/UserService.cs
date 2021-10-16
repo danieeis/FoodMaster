@@ -18,6 +18,7 @@ namespace FoodMaster.Services
         public UserService()
         {
             _authenticationService = DependencyService.Get<IAuthenticationService>();
+            User = _authenticationService.GetUserAsync();
         }
 
         public static event EventHandler<string> NameChanged
@@ -76,7 +77,7 @@ namespace FoodMaster.Services
 
 
             await SecureStorage.SetAsync("OAuthToken", token).ConfigureAwait(false);
-
+            User = _authenticationService.GetUserAsync();
             IsAuthenticated = true;
         }
 
@@ -105,12 +106,14 @@ namespace FoodMaster.Services
             SecureStorage.Remove("OAuthToken");
             _authenticationService.SignOut();
             IsAuthenticated = false;
+            User = null;
         }
 
         void HandleLoggedOut(object sender, EventArgs e)
         {
             SecureStorage.Remove("OAuthToken");
             _authenticationService.SignOut();
+            User = null;
             IsAuthenticated = false;
         }
 

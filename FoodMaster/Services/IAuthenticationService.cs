@@ -7,7 +7,8 @@ namespace FoodMaster.Services
     {
         bool IsSignIn();
         Task<string> LoginWithEmailPassword(string email, string password);
-        Task<string> RegisterWithEmailPassword(string email, string password);
+        Task<string> RegisterWithEmailPassword(string name, string email, string password);
+        Task UpdateName(string names);
         bool SignOut();
         User GetUserAsync();
     }

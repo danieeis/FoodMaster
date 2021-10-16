@@ -13,6 +13,7 @@ namespace FoodMaster.ViewModels
     [QueryProperty("FoodId", "id")]
     public class FoodDetailViewModel : BaseViewModel, IQueryAttributable
     {
+        public string Type { get; set; }
         double _collectionViewMaxHeight;
         public double CollectionViewMaxHeight
         {
@@ -106,24 +107,36 @@ namespace FoodMaster.ViewModels
 
         IRecipeService _recipeService;
         IAuthenticationService _authenticationService;
+        UserService _userService;
+        RemoteConfig _remoteConfig;
         public Command<string> ChangePortionCommand { get; }
         public Command OpenWhatsappCommand { get; }
-
+        
         public FoodDetailViewModel()
         {
+            _remoteConfig = DependencyService.Get<RemoteConfig>();
             _recipeService = DependencyService.Get<IRecipeService>();
-            _authenticationService = DependencyService.Get<IAuthenticationService>();
+            _userService = DependencyService.Get<UserService>();
+            _recipeService = DependencyService.Get<IRecipeService>();
             ChangePortionCommand = new Command<string>(ChangePortion);
             OpenWhatsappCommand = new Command(OpenWhatsapp);
         }
 
         private async void OpenWhatsapp(object obj)
         {
+            string phoneNumber = _remoteConfig.BasicData.PhoneNumber;
             string ingredients = string.Join("\n", Ingredients.Select(x=> $"• {x}"));
-            User user = _authenticationService.GetUserAsync();
-            string text = HttpUtility.UrlEncode($"Hola soy {user.Names}, mi correo es {user.Email}\n\nEstoy interesado en el plato de la gastronomia {Category} llamado {Name} para {PortionSelected.DisplayValue} \n\nLos ingredientes son: \n\n" +
+            
+            string text = HttpUtility.UrlEncode($"Hola, soy {_userService.User?.Names}, mi correo es {_userService.User?.Email}\n\nEstoy interesado en el plato *{Name}* de la categoria *{Category}* perteneciente a las *{Type}* para *{PortionSelected.DisplayValue}*.\n\nLos ingredientes son: \n\n" +
                 $"{ingredients}");
-            await Xamarin.Essentials.Browser.OpenAsync($"https://wa.me/584123079532?text={text}");
+            if (!string.IsNullOrWhiteSpace(phoneNumber) && !string.IsNullOrWhiteSpace(text))
+            {
+                _analyticsService.Track($"Tap: Pedido por whatsapp", new Dictionary<string, string>()
+                {
+                    { "name", Name }
+                });
+                await Xamarin.Essentials.Browser.OpenAsync($"https://wa.me/{phoneNumber}?text={text}");
+            }
         }
 
         private void ChangePortion(object obj)
@@ -143,8 +156,8 @@ namespace FoodMaster.ViewModels
                         item.SelectedColor = Color.FromHex("#4B4A4A");
                         item.Icon = item.GetIcon();
                     }
-                    
                 }
+                _analyticsService.Track("Tap: Cambio de porcion");
             }
         }
 
@@ -155,6 +168,7 @@ namespace FoodMaster.ViewModels
             Name = Title = food.Name;
             Category = food.Category;
             Level = food.Level;
+            Type = food.Type;
             Timing = food.Timing;
             Image = food.Image;
             Tips = food.Tips.Select((text, i) => new TipDTO() { Index = i, Text = text });
@@ -169,6 +183,10 @@ namespace FoodMaster.ViewModels
             PortionSelected = selectedPortions;
             Portions = food.NutritionalValue.Select((x) => new PortionDTO() { Title = x.Key, Value = x.Value });
             Preparation = food.Preparation;
+            _analyticsService.Track($"Tap: Plato", new Dictionary<string, string>()
+            {
+                { "name", Name }
+            });
         }
     }
 }

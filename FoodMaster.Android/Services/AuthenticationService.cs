@@ -12,15 +12,23 @@ namespace FoodMaster.Droid.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
+        IAnalyticsService _analyticsService;
+
+        public AuthenticationService()
+        {
+            _analyticsService = DependencyService.Get<IAnalyticsService>();
+        }
+
         public User GetUserAsync()
         {
             var user = FirebaseAuth.Instance.CurrentUser;
-
             return new User()
             {
-                Id = user.TenantId,
-                Email = user.Email,
-                Names = user.DisplayName
+                Id = user?.ProviderId,
+                Email = user?.Email,
+                Names = user?.DisplayName,
+                PhoneNumber = user?.PhoneNumber,
+                PhotoUrl = user?.PhotoUrl?.ToString()
             };
 
         }
@@ -43,24 +51,35 @@ namespace FoodMaster.Droid.Services
             catch (Exception e)
             {
                 System.Diagnostics.Debug.Print(e.Message);
+                _analyticsService.Report(e);
                 return string.Empty;
             }
         }
 
-        public async Task<string> RegisterWithEmailPassword(string email, string password)
+        public async Task<string> RegisterWithEmailPassword(string name, string email, string password)
         {
             try
             {
+                var builder = new UserProfileChangeRequest.Builder().SetDisplayName(name).Build();
+                
                 var user = await FirebaseAuth.Instance.CreateUserWithEmailAndPasswordAsync(email, password);
                 var token = await user.User.GetIdToken(false).ToAwaitableTask();
-
+                await user.User.UpdateProfileAsync(builder).ConfigureAwait(false);
+                
                 return token.ToString();
             }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.Print(e.Message);
+                _analyticsService.Report(e);
                 return string.Empty;
             }
+        }
+
+        public async System.Threading.Tasks.Task UpdateName(string names)
+        {
+            var builder = new UserProfileChangeRequest.Builder().SetDisplayName(names).Build();
+            await FirebaseAuth.Instance.CurrentUser.UpdateProfileAsync(builder).ConfigureAwait(false);
         }
 
 
@@ -72,8 +91,9 @@ namespace FoodMaster.Droid.Services
                 FirebaseAuth.Instance.SignOut();
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _analyticsService.Report(e);
                 return false;
             }
         }

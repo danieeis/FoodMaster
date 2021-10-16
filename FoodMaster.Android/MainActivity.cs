@@ -6,6 +6,8 @@ using Android.Runtime;
 using Android.OS;
 using Acr.UserDialogs;
 using FFImageLoading.Forms.Platform;
+using Xamarin.Forms;
+using FoodMaster.Services;
 
 namespace FoodMaster.Droid
 {
@@ -15,6 +17,7 @@ namespace FoodMaster.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            RegisterServices();
             UserDialogs.Init(this);
             Rg.Plugins.Popup.Popup.Init(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -27,6 +30,13 @@ namespace FoodMaster.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        private static void RegisterServices()
+        {
+            DependencyService.Register<UserService>();
+            DependencyService.Register<AnalyticsService>();
+            DependencyService.Register<RemoteConfig>();
         }
     }
 }
