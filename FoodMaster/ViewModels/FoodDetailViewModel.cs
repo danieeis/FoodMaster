@@ -109,6 +109,7 @@ namespace FoodMaster.ViewModels
         IAuthenticationService _authenticationService;
         UserService _userService;
         RemoteConfig _remoteConfig;
+        IOrderService _orderService;
         public Command<string> ChangePortionCommand { get; }
         public Command OpenWhatsappCommand { get; }
         
@@ -118,6 +119,7 @@ namespace FoodMaster.ViewModels
             _recipeService = DependencyService.Get<IRecipeService>();
             _userService = DependencyService.Get<UserService>();
             _recipeService = DependencyService.Get<IRecipeService>();
+            _orderService = DependencyService.Get<IOrderService>();
             ChangePortionCommand = new Command<string>(ChangePortion);
             OpenWhatsappCommand = new Command(OpenWhatsapp);
         }
@@ -135,6 +137,17 @@ namespace FoodMaster.ViewModels
                 {
                     { "name", Name }
                 });
+                await _orderService.StoreOrder(new Order()
+                {
+                    UserEmail = _userService.User?.Email,
+                    UserId = _userService.User?.Id,
+                    UserName = _userService.User?.Names,
+                    Image = Image,
+                    Name = Name,
+                    Portion = PortionSelected.DisplayValue,
+                    Type = Type,
+                    OrderAt = DateTime.Now.ToLocalTime().ToString()
+                }).ConfigureAwait(false);
                 await Xamarin.Essentials.Browser.OpenAsync($"https://wa.me/{phoneNumber}?text={text}");
             }
         }

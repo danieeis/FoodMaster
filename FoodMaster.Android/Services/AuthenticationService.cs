@@ -24,7 +24,7 @@ namespace FoodMaster.Droid.Services
             var user = FirebaseAuth.Instance.CurrentUser;
             return new User()
             {
-                Id = user?.ProviderId,
+                Id = user?.Uid,
                 Email = user?.Email,
                 Names = user?.DisplayName,
                 PhoneNumber = user?.PhoneNumber,

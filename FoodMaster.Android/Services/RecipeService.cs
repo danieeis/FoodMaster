@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Firebase.Firestore;
 using FoodMaster.Droid.Services;
@@ -83,12 +84,6 @@ namespace FoodMaster.Droid.Services
                     food.Category = item.GetString("categoria");
                     food.Name = item.GetString("name");
                     food.Image = item.GetString("image");
-                    food.Level = item.GetString("nivel_preparacion");
-                    food.Timing = item.GetString("tiempo_preparacion");
-                    //food.Tips = (string[]) item.Get("consejos");
-                    //food.Preparation = (string[])item.Get("preparacion");
-                    //food.NutritionalValue = (Dictionary<string,string>) item.Get("valor_nutricional").ToDictionary<string>();
-                    //food.Ingredients = (Dictionary<string, string>) item.Get("ingredientes").ToDictionary<string>();
                     food.DocumentPath = $"{documentPath}/{item.Id}";
 
                     foodsList.Add(food);
@@ -210,6 +205,15 @@ namespace FoodMaster.Droid.Services
             }
             
             return dictionary;
+        }
+
+        public static IDictionary<string, object> AsDictionary(this object source, BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+        {
+            return source.GetType().GetProperties(bindingAttr).ToDictionary
+            (
+                propInfo => propInfo.Name,
+                propInfo => propInfo.GetValue(source, null)
+            );
         }
 
         private static void ThrowExceptionWhenSourceArgumentIsNull()

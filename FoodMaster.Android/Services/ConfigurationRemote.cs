@@ -7,7 +7,6 @@ using FoodMaster.Models;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(ConfigurationRemote))]
-
 namespace FoodMaster.Droid.Services
 {
     public class ConfigurationRemote : IConfigurationRemote

@@ -153,6 +153,7 @@
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\RecipeService.cs" />
     <Compile Include="Services\ConfigurationRemote.cs" />
+    <Compile Include="Services\OrderService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
