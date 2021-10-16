@@ -1,5 +1,6 @@
 ﻿using System;
 using FoodMaster.ViewModels;
+using Rg.Plugins.Popup.Extensions;
 using Xamarin.CommunityToolkit.UI.Views;
 
 namespace FoodMaster.Views
@@ -10,6 +11,11 @@ namespace FoodMaster.Views
         {
             InitializeComponent();
             this.BindingContext = foodDetail;
+        }
+
+        async void Button_Clicked(System.Object sender, System.EventArgs e)
+        {
+            await Navigation.PopPopupAsync();
         }
     }
 }
