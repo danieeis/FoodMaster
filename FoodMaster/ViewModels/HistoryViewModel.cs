@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using FoodMaster.Interfaces;
 using FoodMaster.Models;
@@ -32,7 +33,7 @@ namespace FoodMaster.ViewModels
             Task.Run(GetOrders);
             Name = _userService.User.Names;
             Email = _userService.User.Email;
-            Avatar = _userService.User.PhotoUrl ?? "https://cdn0.iconfinder.com/data/icons/kameleon-free-pack-rounded/110/Chef-2-256.png";
+            Avatar = _userService.User.PhotoUrl ?? "chef.png";
         }
 
         async Task GetOrders()
@@ -40,7 +41,7 @@ namespace FoodMaster.ViewModels
             IsBusy = true;
             var orders = await _orderService.GetOrdersByUser(_userService.User?.Email);
 
-            Orders = new ObservableCollection<Order>(orders);
+            Orders = new ObservableCollection<Order>(orders.OrderBy(x=> x.OrderAt));
 
             IsBusy = false;
         }

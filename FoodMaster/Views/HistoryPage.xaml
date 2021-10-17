@@ -47,6 +47,9 @@
                     Margin="10,20,10,0"
                     ItemsSource="{Binding Orders}"
                     SelectionMode="None">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
                     <CollectionView.Header>
                         <Label
                             Margin="10"
@@ -67,7 +70,7 @@
                                         Grid.Row="0"
                                         Grid.Column="0"
                                         Aspect="Fill"
-                                        HeightRequest="130"
+                                        HeightRequest="140"
                                         Source="{Binding Image}"
                                         VerticalOptions="Start" />
                                     <StackLayout
