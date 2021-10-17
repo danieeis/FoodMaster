@@ -30,7 +30,7 @@ namespace FoodMaster.Droid.Services
                     order.Name = item.GetString("Name");
                     order.Image = item.GetString("Image");
                     order.Portion = item.GetString("Portion");
-                    order.OrderAt = item.GetString("OrderAt");
+                    order.OrderAt = DateTime.Parse(item.GetString("OrderAt"));
 
                     orders.Add(order);
                 }

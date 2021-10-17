@@ -10,6 +10,6 @@ namespace FoodMaster.Models
         public string Name { get; set; }
         public string Image { get; set; }
         public string Portion { get; set; }
-        public string OrderAt { get; set; }
+        public DateTime OrderAt { get; set; }
     }
 }

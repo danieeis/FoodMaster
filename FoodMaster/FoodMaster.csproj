@@ -27,6 +27,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.13" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
+    <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\" />
@@ -47,6 +48,7 @@
     <None Remove="Converters\" />
     <None Remove="Rg.Plugins.Popup" />
     <None Remove="Xamarin.Forms.PancakeView" />
+    <None Remove="Xamarin.FFImageLoading.Transformations" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

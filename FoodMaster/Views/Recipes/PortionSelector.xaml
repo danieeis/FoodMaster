@@ -81,7 +81,7 @@
                 BackgroundColor="{DynamicResource PrimaryDark}"
                 Clicked="Button_Clicked"
                 HorizontalOptions="FillAndExpand"
-                Text="Cancelar" />
+                Text="Aceptar" />
         </StackLayout>
     </yummy:PancakeView>
 </pages:PopupPage>

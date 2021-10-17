@@ -146,7 +146,7 @@ namespace FoodMaster.ViewModels
                     Name = Name,
                     Portion = PortionSelected.DisplayValue,
                     Type = Type,
-                    OrderAt = DateTime.Now.ToLocalTime().ToString()
+                    OrderAt = DateTime.Now.ToLocalTime()
                 }).ConfigureAwait(false);
                 await Xamarin.Essentials.Browser.OpenAsync($"https://wa.me/{phoneNumber}?text={text}");
             }
