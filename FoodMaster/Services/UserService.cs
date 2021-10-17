@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FoodMaster.Models;
+using FoodMaster.Views;
+using Plugin.GoogleClient;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -14,17 +16,53 @@ namespace FoodMaster.Services
 
         User _user;
         IAuthenticationService _authenticationService;
-
+        IGoogleClientManager _googleService = CrossGoogleClient.Current;
+        IAnalyticsService _analyticsService;
         public UserService()
         {
             _authenticationService = DependencyService.Get<IAuthenticationService>();
-            User = _authenticationService.GetUserAsync();
+            _analyticsService = DependencyService.Get<IAnalyticsService>();
+            RetrieveUser();
+        }
+
+        public void RetrieveUser()
+        {
+            try
+            {
+                if (LoginMethod == "Email")
+                {
+                    User = _authenticationService.GetUserAsync();
+                }
+                else if (LoginMethod == "Google")
+                {
+                    var user = _googleService.CurrentUser;
+                    User = new Models.User()
+                    {
+                        Email = user.Email,
+                        Names = user.Name,
+                        PhotoUrl = user.Picture?.AbsoluteUri,
+                        Id = user.Id
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                SignOut();
+                _analyticsService.Report(ex);
+            }
+            
         }
 
         public static event EventHandler<string> NameChanged
         {
             add => _nameChangedEventManager.AddEventHandler(value);
             remove => _nameChangedEventManager.RemoveEventHandler(value);
+        }
+
+        public string LoginMethod
+        {
+            get => Preferences.Get(nameof(LoginMethod), "Email");
+            set => Preferences.Set(nameof(LoginMethod), value);
         }
 
         public bool IsAuthenticated
@@ -57,13 +95,9 @@ namespace FoodMaster.Services
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
 
-            if (token is null)
-                throw new ArgumentNullException(nameof(token));
-
-
 
             await SecureStorage.SetAsync("OAuthToken", token).ConfigureAwait(false);
-            User = _authenticationService.GetUserAsync();
+            RetrieveUser();
             IsAuthenticated = true;
         }
 
@@ -90,15 +124,30 @@ namespace FoodMaster.Services
         public void InvalidateToken()
         {
             SecureStorage.Remove("OAuthToken");
-            _authenticationService.SignOut();
+            SignOut();
             IsAuthenticated = false;
             User = null;
+        }
+
+        private void SignOut()
+        {
+            if (LoginMethod == "Email")
+            {
+                _authenticationService.SignOut();
+            }
+            else if (LoginMethod == "Google")
+            {
+                _googleService.Logout();
+            }
+
+
+            App.Current.MainPage = new LoginPage();
         }
 
         void HandleLoggedOut(object sender, EventArgs e)
         {
             SecureStorage.Remove("OAuthToken");
-            _authenticationService.SignOut();
+            SignOut();
             User = null;
             IsAuthenticated = false;
         }

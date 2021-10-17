@@ -49,7 +49,6 @@ namespace FoodMaster.ViewModels
         private void Logout(object obj)
         {
             _userService.InvalidateToken();
-            App.Current.MainPage = new LoginPage();
         }
 
         private async void OpenGastronomy(Gastronomy category)

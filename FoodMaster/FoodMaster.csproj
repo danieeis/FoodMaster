@@ -28,6 +28,7 @@
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.13" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
     <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
+    <PackageReference Include="Plugin.GoogleClient" Version="2.1.12" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\" />
@@ -49,6 +50,7 @@
     <None Remove="Rg.Plugins.Popup" />
     <None Remove="Xamarin.Forms.PancakeView" />
     <None Remove="Xamarin.FFImageLoading.Transformations" />
+    <None Remove="Plugin.GoogleClient" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

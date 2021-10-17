@@ -1,6 +1,11 @@
-﻿using Acr.UserDialogs;
+﻿using System;
+using System.Threading.Tasks;
+using Acr.UserDialogs;
 using FoodMaster.Services;
 using FoodMaster.Views;
+using Newtonsoft.Json;
+using Plugin.GoogleClient;
+using Plugin.GoogleClient.Shared;
 using Xamarin.Forms;
 
 namespace FoodMaster.ViewModels
@@ -25,16 +30,16 @@ namespace FoodMaster.ViewModels
         }
         IAuthenticationService _authenticationService;
         UserService _userService;
-        IAnalyticsService _analyticsService;
-        
+        IGoogleClientManager _googleService = CrossGoogleClient.Current;
+
 
 
         public LoginViewModel()
         {
             LoginCommand = new Command(OnLoginClicked);
+            LoginWithGoogle = new Command(LoginGoogleAsync);
             GoRegister = new Command(OnGoRegisterClicked);
             _authenticationService = DependencyService.Get<IAuthenticationService>();
-            _analyticsService = DependencyService.Get<IAnalyticsService>();
             _userService = DependencyService.Get<UserService>();
 #if DEBUG
             Email = "danieldaniyyelda@gmail.com";
@@ -42,9 +47,59 @@ namespace FoodMaster.ViewModels
 #endif
         }
 
+        async void LoginGoogleAsync(object obj)
+        {
+            _analyticsService.Track("want login with google");
+            try
+            {
+                if (!string.IsNullOrEmpty(_googleService.AccessToken))
+                {
+                    //Always require user authentication
+                    _googleService.Logout();
+                }
+
+                EventHandler<GoogleClientResultEventArgs<GoogleUser>> userLoginDelegate = null;
+                userLoginDelegate = async (object sender, GoogleClientResultEventArgs<GoogleUser> e) =>
+                {
+                    switch (e.Status)
+                    {
+                        case GoogleActionStatus.Completed:
+                            _analyticsService.Track($"Google Login Success");
+                            _userService.LoginMethod = "Google";
+                            await LoginSucess(_googleService.AccessToken).ConfigureAwait(false);
+                            break;
+                        case GoogleActionStatus.Canceled:
+                            _analyticsService.Track($"Google Login Canceled");
+                            UserDialogs.Instance.Toast("Cancelado al ingresar con Google");
+                            break;
+                        case GoogleActionStatus.Error:
+                            _analyticsService.Track($"Google Login Error");
+                            UserDialogs.Instance.Toast("Error al ingresar con Google");
+                            await App.Current.MainPage.DisplayAlert("Google Auth", "Error", "Ok");
+                            break;
+                        case GoogleActionStatus.Unauthorized:
+                            _analyticsService.Track($"Google Login Unauthorized");
+                            UserDialogs.Instance.Toast("No autorizado al ingresar con Google");
+                            break;
+                    }
+
+                    _googleService.OnLogin -= userLoginDelegate;
+                };
+
+                _googleService.OnLogin += userLoginDelegate;
+
+                await _googleService.LoginAsync();
+            }
+            catch (Exception ex)
+            {
+                _analyticsService.Report(ex);
+                UserDialogs.Instance.Toast("Ocurrió un error al ingresar con Google");
+            }
+        }
+
         private async void OnLoginClicked(object obj)
         {
-            _analyticsService.Track("want login");
+            _analyticsService.Track("want login with email");
             IsBusy = true;
             if (string.IsNullOrEmpty(Email))
             {
@@ -66,17 +121,8 @@ namespace FoodMaster.ViewModels
             if (!string.IsNullOrEmpty(token))
             {
                 _analyticsService.Track("Login success");
-                await _userService.SaveToken(token).ConfigureAwait(false);
-                if (_userService.PassThroughOnboarding)
-                {
-                    _analyticsService.Track("Login to home directly");
-                    App.Current.MainPage = new AppShell();
-                }
-                else
-                {
-                    _analyticsService.Track("Login to onboarding");
-                    App.Current.MainPage = new OnboardingOne();
-                }
+                _userService.LoginMethod = "Email";
+                await LoginSucess(token).ConfigureAwait(false);
             }
             else
             {
@@ -85,6 +131,21 @@ namespace FoodMaster.ViewModels
             }
 
             IsBusy = false;
+        }
+
+        private async Task LoginSucess(string token)
+        {
+            await _userService.SaveToken(token).ConfigureAwait(false);
+            if (_userService.PassThroughOnboarding)
+            {
+                _analyticsService.Track("Login to home directly");
+                App.Current.MainPage = new AppShell();
+            }
+            else
+            {
+                _analyticsService.Track("Login to onboarding");
+                App.Current.MainPage = new OnboardingOne();
+            }
         }
 
         private void OnGoRegisterClicked(object obj)

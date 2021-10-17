@@ -8,6 +8,7 @@ using Acr.UserDialogs;
 using FFImageLoading.Forms.Platform;
 using Xamarin.Forms;
 using FoodMaster.Services;
+using Plugin.GoogleClient;
 
 namespace FoodMaster.Droid
 {
@@ -20,11 +21,19 @@ namespace FoodMaster.Droid
             RegisterServices();
             UserDialogs.Init(this);
             Rg.Plugins.Popup.Popup.Init(this);
+            GoogleClientManager.Initialize(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             CachedImageRenderer.Init(false);
             LoadApplication(new App());
         }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            GoogleClientManager.OnAuthCompleted(requestCode, resultCode, data);
+        }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
