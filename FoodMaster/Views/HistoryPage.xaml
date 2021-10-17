@@ -69,7 +69,7 @@
                                     <ff:CachedImage
                                         Grid.Row="0"
                                         Grid.Column="0"
-                                        Aspect="Fill"
+                                        Aspect="AspectFill"
                                         HeightRequest="140"
                                         Source="{Binding Image}"
                                         VerticalOptions="Start" />

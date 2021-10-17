@@ -27,6 +27,7 @@ namespace FoodMaster.ViewModels
 
         public HistoryViewModel()
         {
+            Title = "Historial";
             _orderService = DependencyService.Get<IOrderService>();
             _userService = DependencyService.Get<UserService>();
             RefreshCommand = new Command(async() => await GetOrders());
@@ -41,7 +42,7 @@ namespace FoodMaster.ViewModels
             IsBusy = true;
             var orders = await _orderService.GetOrdersByUser(_userService.User?.Email);
 
-            Orders = new ObservableCollection<Order>(orders.OrderBy(x=> x.OrderAt));
+            Orders = new ObservableCollection<Order>(orders.OrderByDescending(x=> x.OrderAt));
 
             IsBusy = false;
         }
