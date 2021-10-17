@@ -3,6 +3,7 @@
     x:Class="FoodMaster.Views.RecipeCategory"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:vm="clr-namespace:FoodMaster.ViewModels"
     Title="{Binding Title}"
     BackgroundColor="{DynamicResource BackgroundColor}">
@@ -22,7 +23,7 @@
                 HasShadow="False"
                 HeightRequest="200">
                 <Grid>
-                    <Image
+                    <ff:CachedImage
                         Grid.Row="0"
                         Grid.Column="0"
                         Aspect="AspectFill"
@@ -66,7 +67,7 @@
                                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RecipeCategoryViewModel}}, Path=OpenFood}" CommandParameter="{Binding .}" />
                                 </Frame.GestureRecognizers>
                                 <Grid>
-                                    <Image
+                                    <ff:CachedImage
                                         Grid.Row="0"
                                         Grid.Column="0"
                                         Aspect="AspectFill"

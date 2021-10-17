@@ -3,6 +3,7 @@
     x:Class="FoodMaster.Views.AboutPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:vm="clr-namespace:FoodMaster.ViewModels"
     Title="{Binding Title}"
     BackgroundColor="{DynamicResource BackgroundColor}">
@@ -11,6 +12,49 @@
         <vm:AboutViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout />
-
+    <StackLayout
+        Margin="10"
+        HorizontalOptions="FillAndExpand"
+        Spacing="20"
+        VerticalOptions="CenterAndExpand">
+        <ff:CachedImage
+            Aspect="AspectFit"
+            HorizontalOptions="FillAndExpand"
+            Source="contact.png" />
+        <Label HorizontalTextAlignment="Center" LineHeight="1.5">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Puedes enviarnos tus inquietudes al correo " />
+                    <Span
+                        Text="{Binding ContactEmail}"
+                        TextColor="{DynamicResource Primary}"
+                        TextDecorations="Underline">
+                        <Span.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenEmailCommand}" />
+                        </Span.GestureRecognizers>
+                    </Span>
+                    <Span Text=" para comentarios, sugerencia y/o recomendación o si prefieres contáctanos directamente a nuestro canal de atención en línea presionando al siguiente botón" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+        <Frame
+            Margin="10"
+            Padding="10"
+            BackgroundColor="{DynamicResource WhatsppColor}"
+            CornerRadius="10"
+            HasShadow="False">
+            <StackLayout Margin="10,0,0,0" Orientation="Horizontal">
+                <ff:CachedImage HorizontalOptions="Start" Source="whatsapp.png" />
+                <Label
+                    FontSize="20"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Text="WhatsApp"
+                    VerticalTextAlignment="Center" />
+            </StackLayout>
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OpenWhatsAppCommand}" />
+            </Frame.GestureRecognizers>
+        </Frame>
+    </StackLayout>
 </ContentPage>

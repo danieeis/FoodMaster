@@ -148,7 +148,7 @@ namespace FoodMaster.ViewModels
                     Type = Type,
                     OrderAt = DateTime.Now.ToLocalTime()
                 }).ConfigureAwait(false);
-                await Xamarin.Essentials.Browser.OpenAsync($"https://wa.me/{phoneNumber}?text={text}");
+                await Xamarin.Essentials.Browser.OpenAsync($"https://wa.me/{phoneNumber}?text={text}");                
             }
         }
 
@@ -170,7 +170,11 @@ namespace FoodMaster.ViewModels
                         item.Icon = item.GetIcon();
                     }
                 }
-                _analyticsService.Track("Tap: Cambio de porcion");
+                _analyticsService.Track("Tap: Cambio de porcion", new Dictionary<string, string>()
+                {
+                    { "name", Name },
+                    { "portion", portion.DisplayValue }
+                });
             }
         }
 

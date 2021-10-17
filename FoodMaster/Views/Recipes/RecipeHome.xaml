@@ -74,7 +74,7 @@
                                         HasShadow="False"
                                         HeightRequest="200">
                                         <Grid>
-                                            <Image
+                                            <ff:CachedImage
                                                 Grid.Row="0"
                                                 Grid.Column="0"
                                                 Aspect="AspectFill"

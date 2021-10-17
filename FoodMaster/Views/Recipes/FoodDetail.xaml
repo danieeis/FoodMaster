@@ -262,7 +262,7 @@
                 Grid.Column="1"
                 Margin="0,0,20,20"
                 Padding="15,5"
-                BackgroundColor="#25D366"
+                BackgroundColor="{DynamicResource WhatsppColor}"
                 CornerRadius="32"
                 HasShadow="False">
                 <StackLayout Orientation="Horizontal">
