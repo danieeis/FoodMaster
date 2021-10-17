@@ -22,15 +22,19 @@ namespace FoodMaster.Droid.Services
         public User GetUserAsync()
         {
             var user = FirebaseAuth.Instance.CurrentUser;
-            return new User()
+            if (user != null)
             {
-                Id = user?.Uid,
-                Email = user?.Email,
-                Names = user?.DisplayName,
-                PhoneNumber = user?.PhoneNumber,
-                PhotoUrl = user?.PhotoUrl?.ToString()
-            };
+                return new User()
+                {
+                    Id = user?.Uid,
+                    Email = user?.Email,
+                    Names = user?.DisplayName,
+                    PhoneNumber = user?.PhoneNumber,
+                    PhotoUrl = user?.PhotoUrl?.ToString()
+                };
+            }
 
+            return new User();
         }
 
         public bool IsSignIn()

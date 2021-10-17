@@ -39,19 +39,6 @@ namespace FoodMaster.Services
             set => Preferences.Set(nameof(PassThroughOnboarding), value);
         }
 
-        public string Name
-        {
-            get => Preferences.Get(nameof(Name), string.Empty);
-            set
-            {
-                if (Name != value)
-                {
-                    Preferences.Set(nameof(Name), value);
-                    OnNameChanged(value);
-                }
-            }
-        }
-
         public User User
         {
             get => _user;
@@ -60,7 +47,6 @@ namespace FoodMaster.Services
                 if (_user != value)
                 {
                     _user = value;
-                    Name = _user?.Names.Split(' ').FirstOrDefault() ?? string.Empty;
                 }
             }
         }
@@ -116,8 +102,5 @@ namespace FoodMaster.Services
             User = null;
             IsAuthenticated = false;
         }
-
-        void OnNameChanged(in string name) => _nameChangedEventManager.RaiseEvent(this, name, nameof(NameChanged));
-
     }
 }
