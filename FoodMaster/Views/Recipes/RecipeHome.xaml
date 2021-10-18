@@ -40,6 +40,9 @@
                         Source="online_class.png"
                         WidthRequest="100" />
                 </StackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenOnlineClass}" />
+                </Frame.GestureRecognizers>
             </Frame>
             <xct:TabView
                 Grid.Row="1"
