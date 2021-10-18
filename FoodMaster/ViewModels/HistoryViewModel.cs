@@ -32,9 +32,9 @@ namespace FoodMaster.ViewModels
             _userService = DependencyService.Get<UserService>();
             RefreshCommand = new Command(async() => await GetOrders());
             Task.Run(GetOrders);
-            Name = _userService.User.Names;
-            Email = _userService.User.Email;
-            Avatar = _userService.User.PhotoUrl ?? "chef.png";
+            Name = _userService.User?.Names;
+            Email = _userService.User?.Email;
+            Avatar = _userService.User?.PhotoUrl ?? "chef.png";
         }
 
         async Task GetOrders()

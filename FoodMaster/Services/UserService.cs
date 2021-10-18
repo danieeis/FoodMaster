@@ -2,7 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FoodMaster.Models;
+using FoodMaster.ViewModels;
 using FoodMaster.Views;
+using Newtonsoft.Json;
+using Plugin.FacebookClient;
 using Plugin.GoogleClient;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Essentials;
@@ -17,6 +20,7 @@ namespace FoodMaster.Services
         User _user;
         IAuthenticationService _authenticationService;
         IGoogleClientManager _googleService = CrossGoogleClient.Current;
+        IFacebookClient _facebookService = CrossFacebookClient.Current;
         IAnalyticsService _analyticsService;
         public UserService()
         {
@@ -25,10 +29,11 @@ namespace FoodMaster.Services
             RetrieveUser();
         }
 
-        public void RetrieveUser()
+        public async void RetrieveUser()
         {
             try
             {
+                if (!IsAuthenticated) return;
                 if (LoginMethod == "Email")
                 {
                     User = _authenticationService.GetUserAsync();
@@ -43,6 +48,9 @@ namespace FoodMaster.Services
                         PhotoUrl = user.Picture?.AbsoluteUri,
                         Id = user.Id
                     };
+                }else if(LoginMethod == "Facebook")
+                {
+                    await RetrieveFacebookData().ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
@@ -51,6 +59,51 @@ namespace FoodMaster.Services
                 _analyticsService.Report(ex);
             }
             
+        }
+
+        async Task RetrieveFacebookData()
+        {
+            try
+            {
+                EventHandler<FBEventArgs<string>> userDataDelegate = null;
+
+                userDataDelegate = async (object sender, FBEventArgs<string> e) =>
+                {
+                    if (e == null) return;
+
+                    switch (e.Status)
+                    {
+                        case FacebookActionStatus.Completed:
+
+                            _analyticsService.Track($"Facebook Retrieve Data Success");
+
+                            var facebookProfile = await Task.Run(() => JsonConvert.DeserializeObject<FacebookProfile>(e.Data));
+                            User = new User()
+                            {
+                                Email = facebookProfile.email,
+                                Names = facebookProfile.name,
+                                PhotoUrl = facebookProfile.picture.data.url,
+                                Id = facebookProfile.id
+                            };
+                            break;
+                        case FacebookActionStatus.Canceled:
+                            _analyticsService.Track($"Facebook Login Cancel");
+                            break;
+                    }
+
+                    _facebookService.OnUserData -= userDataDelegate;
+                };
+
+                _facebookService.OnUserData += userDataDelegate;
+
+                string[] fbRequestFields = { "email", "picture", "name" };
+                string[] fbPermisions = { "email", "public_profile" };
+                await _facebookService.RequestUserDataAsync(fbRequestFields, fbPermisions);
+            }
+            catch (Exception ex)
+            {
+                _analyticsService.Report(ex);
+            }
         }
 
         public static event EventHandler<string> NameChanged
@@ -97,8 +150,8 @@ namespace FoodMaster.Services
 
 
             await SecureStorage.SetAsync("OAuthToken", token).ConfigureAwait(false);
-            RetrieveUser();
             IsAuthenticated = true;
+            RetrieveUser();
         }
 
         public async Task<string> GetAuthToken()
@@ -138,6 +191,9 @@ namespace FoodMaster.Services
             else if (LoginMethod == "Google")
             {
                 _googleService.Logout();
+            }else if(LoginMethod == "Facebook")
+            {
+                _facebookService.Logout();
             }
 
 

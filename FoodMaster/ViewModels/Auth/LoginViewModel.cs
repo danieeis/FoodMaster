@@ -4,6 +4,7 @@ using Acr.UserDialogs;
 using FoodMaster.Services;
 using FoodMaster.Views;
 using Newtonsoft.Json;
+using Plugin.FacebookClient;
 using Plugin.GoogleClient;
 using Plugin.GoogleClient.Shared;
 using Xamarin.Forms;
@@ -31,13 +32,14 @@ namespace FoodMaster.ViewModels
         IAuthenticationService _authenticationService;
         UserService _userService;
         IGoogleClientManager _googleService = CrossGoogleClient.Current;
-
+        IFacebookClient _facebookService = CrossFacebookClient.Current;
 
 
         public LoginViewModel()
         {
             LoginCommand = new Command(OnLoginClicked);
             LoginWithGoogle = new Command(LoginGoogleAsync);
+            LoginWithFacebook = new Command(async () => await LoginFacebookAsync());
             GoRegister = new Command(OnGoRegisterClicked);
             _authenticationService = DependencyService.Get<IAuthenticationService>();
             _userService = DependencyService.Get<UserService>();
@@ -45,6 +47,51 @@ namespace FoodMaster.ViewModels
             Email = "danieldaniyyelda@gmail.com";
             Password = "Aa.12345";
 #endif
+        }
+
+        async Task LoginFacebookAsync()
+        {
+            try
+            {
+
+                if (_facebookService.IsLoggedIn)
+                {
+                    _facebookService.Logout();
+                }
+
+                EventHandler<FBEventArgs<string>> userDataDelegate = null;
+
+                userDataDelegate = async (object sender, FBEventArgs<string> e) =>
+                {
+                    if (e == null) return;
+
+                    switch (e.Status)
+                    {
+                        case FacebookActionStatus.Completed:
+
+                            _analyticsService.Track($"Facebook Login Success");
+                            _userService.LoginMethod = "Facebook";
+                            await LoginSucess(_facebookService.ActiveToken).ConfigureAwait(false);
+                            break;
+                        case FacebookActionStatus.Canceled:
+                            _analyticsService.Track($"Facebook Login Cancel");
+                            break;
+                    }
+
+                    _facebookService.OnUserData -= userDataDelegate;
+                };
+
+                _facebookService.OnUserData += userDataDelegate;
+
+                string[] fbRequestFields = { "email", "picture", "name" };
+                string[] fbPermisions = { "email", "public_profile" };
+                await _facebookService.RequestUserDataAsync(fbRequestFields, fbPermisions);
+            }
+            catch (Exception ex)
+            {
+                _analyticsService.Report(ex);
+                UserDialogs.Instance.Toast("Ocurrió un error al ingresar con Facebook");
+            }
         }
 
         async void LoginGoogleAsync(object obj)

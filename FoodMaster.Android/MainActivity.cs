@@ -9,6 +9,7 @@ using FFImageLoading.Forms.Platform;
 using Xamarin.Forms;
 using FoodMaster.Services;
 using Plugin.GoogleClient;
+using Plugin.FacebookClient;
 
 namespace FoodMaster.Droid
 {
@@ -19,11 +20,13 @@ namespace FoodMaster.Droid
         {
             base.OnCreate(savedInstanceState);
             RegisterServices();
-            UserDialogs.Init(this);
             Rg.Plugins.Popup.Popup.Init(this);
-            GoogleClientManager.Initialize(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+            UserDialogs.Init(this);
+            GoogleClientManager.Initialize(this);
+            FacebookClientManager.Initialize(this);
             CachedImageRenderer.Init(false);
             LoadApplication(new App());
         }
@@ -31,6 +34,7 @@ namespace FoodMaster.Droid
         protected override void OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
+            FacebookClientManager.OnActivityResult(requestCode, resultCode, data);
             GoogleClientManager.OnAuthCompleted(requestCode, resultCode, data);
         }
 
