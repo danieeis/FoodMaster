@@ -15,12 +15,8 @@ namespace FoodMaster.Services
 {
     public class UserService
     {
-        readonly static WeakEventManager<string> _nameChangedEventManager = new WeakEventManager<string>();
-
         User _user;
         IAuthenticationService _authenticationService;
-        IGoogleClientManager _googleService = CrossGoogleClient.Current;
-        IFacebookClient _facebookService = CrossFacebookClient.Current;
         IAnalyticsService _analyticsService;
         public UserService()
         {
@@ -29,29 +25,12 @@ namespace FoodMaster.Services
             RetrieveUser();
         }
 
-        public async void RetrieveUser()
+        public void RetrieveUser()
         {
             try
             {
                 if (!IsAuthenticated) return;
-                if (LoginMethod == "Email")
-                {
-                    User = _authenticationService.GetUserAsync();
-                }
-                else if (LoginMethod == "Google")
-                {
-                    var user = _googleService.CurrentUser;
-                    User = new Models.User()
-                    {
-                        Email = user.Email,
-                        Names = user.Name,
-                        PhotoUrl = user.Picture?.AbsoluteUri,
-                        Id = user.Id
-                    };
-                }else if(LoginMethod == "Facebook")
-                {
-                    await RetrieveFacebookData().ConfigureAwait(false);
-                }
+                User = _authenticationService.GetUserAsync();
             }
             catch (Exception ex)
             {
@@ -59,57 +38,6 @@ namespace FoodMaster.Services
                 _analyticsService.Report(ex);
             }
             
-        }
-
-        async Task RetrieveFacebookData()
-        {
-            try
-            {
-                EventHandler<FBEventArgs<string>> userDataDelegate = null;
-
-                userDataDelegate = async (object sender, FBEventArgs<string> e) =>
-                {
-                    if (e == null) return;
-
-                    switch (e.Status)
-                    {
-                        case FacebookActionStatus.Completed:
-
-                            _analyticsService.Track($"Facebook Retrieve Data Success");
-
-                            var facebookProfile = await Task.Run(() => JsonConvert.DeserializeObject<FacebookProfile>(e.Data));
-                            User = new User()
-                            {
-                                Email = facebookProfile.email,
-                                Names = facebookProfile.name,
-                                PhotoUrl = facebookProfile.picture.data.url,
-                                Id = facebookProfile.id
-                            };
-                            break;
-                        case FacebookActionStatus.Canceled:
-                            _analyticsService.Track($"Facebook Login Cancel");
-                            break;
-                    }
-
-                    _facebookService.OnUserData -= userDataDelegate;
-                };
-
-                _facebookService.OnUserData += userDataDelegate;
-
-                string[] fbRequestFields = { "email", "picture", "name" };
-                string[] fbPermisions = { "email", "public_profile" };
-                await _facebookService.RequestUserDataAsync(fbRequestFields, fbPermisions);
-            }
-            catch (Exception ex)
-            {
-                _analyticsService.Report(ex);
-            }
-        }
-
-        public static event EventHandler<string> NameChanged
-        {
-            add => _nameChangedEventManager.AddEventHandler(value);
-            remove => _nameChangedEventManager.RemoveEventHandler(value);
         }
 
         public string LoginMethod
@@ -154,26 +82,6 @@ namespace FoodMaster.Services
             RetrieveUser();
         }
 
-        public async Task<string> GetAuthToken()
-        {
-            try
-            {
-                var token = await SecureStorage.GetAsync("OAuthToken").ConfigureAwait(false);
-
-                if (token is null)
-                    return string.Empty;
-
-                IsAuthenticated = true;
-
-                return token;
-            }
-            catch (ArgumentNullException)
-            {
-                IsAuthenticated = false;
-                return string.Empty;
-            }
-        }
-
         public void InvalidateToken()
         {
             SecureStorage.Remove("OAuthToken");
@@ -184,28 +92,9 @@ namespace FoodMaster.Services
 
         private void SignOut()
         {
-            if (LoginMethod == "Email")
-            {
-                _authenticationService.SignOut();
-            }
-            else if (LoginMethod == "Google")
-            {
-                _googleService.Logout();
-            }else if(LoginMethod == "Facebook")
-            {
-                _facebookService.Logout();
-            }
-
+            _authenticationService.SignOut();
 
             App.Current.MainPage = new LoginPage();
-        }
-
-        void HandleLoggedOut(object sender, EventArgs e)
-        {
-            SecureStorage.Remove("OAuthToken");
-            SignOut();
-            User = null;
-            IsAuthenticated = false;
         }
     }
 }

@@ -71,6 +71,7 @@ namespace FoodMaster.ViewModels
 
                             _analyticsService.Track($"Facebook Login Success");
                             _userService.LoginMethod = "Facebook";
+                            await _authenticationService.LoginWithFacebook(_facebookService.ActiveToken);
                             await LoginSucess(_facebookService.ActiveToken).ConfigureAwait(false);
                             break;
                         case FacebookActionStatus.Canceled:
@@ -113,6 +114,7 @@ namespace FoodMaster.ViewModels
                         case GoogleActionStatus.Completed:
                             _analyticsService.Track($"Google Login Success");
                             _userService.LoginMethod = "Google";
+                            await _authenticationService.LoginWithGoogle(_googleService.IdToken, _googleService.AccessToken);
                             await LoginSucess(_googleService.AccessToken).ConfigureAwait(false);
                             break;
                         case GoogleActionStatus.Canceled:

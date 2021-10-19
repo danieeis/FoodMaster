@@ -35,6 +35,7 @@
                 Text="Contamos con gran variedad de profesionales en la cocina de todas partes del mundo, vive la experiencia y no dejes pasar la oportunidad"
                 VerticalOptions="Center" />
             <xct:MediaElement
+                x:Name="videoPlayer"
                 HeightRequest="200"
                 HorizontalOptions="Fill"
                 IsLooping="True"

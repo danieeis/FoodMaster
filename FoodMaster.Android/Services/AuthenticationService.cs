@@ -6,6 +6,7 @@ using Firebase.Auth;
 using Android.Gms.Tasks;
 using System;
 using FoodMaster.Models;
+using Xamarin.Facebook;
 
 [assembly: Dependency(typeof(AuthenticationService))]
 namespace FoodMaster.Droid.Services
@@ -19,11 +20,47 @@ namespace FoodMaster.Droid.Services
             _analyticsService = DependencyService.Get<IAnalyticsService>();
         }
 
+        public async Task<bool> LoginWithGoogle(string idToken, string accessToken)
+        {
+            try
+            {
+
+                AuthCredential credential = GoogleAuthProvider.GetCredential(idToken, accessToken);
+                var user = await FirebaseAuth.Instance.SignInWithCredential(credential).ToAwaitableTask();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.Print(e.Message);
+                _analyticsService.Report(e);
+                return false;
+            }
+        }
+
+        public async Task<bool> LoginWithFacebook(string token)
+        {
+            try
+            {
+
+                AuthCredential credential = FacebookAuthProvider.GetCredential(token);
+                var user = await FirebaseAuth.Instance.SignInWithCredential(credential).ToAwaitableTask();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.Print(e.Message);
+                _analyticsService.Report(e);
+                return false;
+            }
+        }
+
         public User GetUserAsync()
         {
             try
             {
-                var user = FirebaseAuth.Instance.CurrentUser?.ProviderData[0];
+                var user = FirebaseAuth.Instance.CurrentUser;
                 if (user != null)
                 {
                     return new User()

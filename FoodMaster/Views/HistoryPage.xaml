@@ -18,8 +18,10 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 Aspect="AspectFit"
+                HeightRequest="150"
                 HorizontalOptions="Center"
-                Source="{Binding Avatar}">
+                Source="{Binding Avatar}"
+                WidthRequest="200">
                 <ff:CachedImage.Transformations>
                     <trans:RoundedTransformation Radius="360" />
                 </ff:CachedImage.Transformations>

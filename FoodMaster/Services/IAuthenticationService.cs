@@ -11,5 +11,7 @@ namespace FoodMaster.Services
         Task UpdateName(string names);
         bool SignOut();
         User GetUserAsync();
+        Task<bool> LoginWithGoogle(string idToken, string accessToken);
+        Task<bool> LoginWithFacebook(string token);
     }
 }

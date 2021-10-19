@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Acr.UserDialogs;
 using FoodMaster.Services;
 using FoodMaster.Views;
+using Plugin.FacebookClient;
 using Plugin.GoogleClient;
 using Plugin.GoogleClient.Shared;
 using Xamarin.Forms;
@@ -38,14 +39,63 @@ namespace FoodMaster.ViewModels
         IAuthenticationService _authenticationService;
         UserService _userService;
         IGoogleClientManager _googleService = CrossGoogleClient.Current;
+        IFacebookClient _facebookService = CrossFacebookClient.Current;
+
         public RegisterViewModel()
         {
             RegisterCommand = new Command(OnRegisterClicked);
             RegisterWithGoogle = new Command(RegisterGoogleAsync);
+            RegisterWithFacebook = new Command(async () => await RegisterWithFacebookAsync());
             GoLogin = new Command(OnGoLoginClicked);
             _userService = DependencyService.Get<UserService>();
             _authenticationService = DependencyService.Get<IAuthenticationService>();
             _analyticsService = DependencyService.Get<IAnalyticsService>();
+        }
+
+        async Task RegisterWithFacebookAsync()
+        {
+            try
+            {
+
+                if (_facebookService.IsLoggedIn)
+                {
+                    _facebookService.Logout();
+                }
+
+                EventHandler<FBEventArgs<string>> userDataDelegate = null;
+
+                userDataDelegate = async (object sender, FBEventArgs<string> e) =>
+                {
+                    if (e == null) return;
+
+                    switch (e.Status)
+                    {
+                        case FacebookActionStatus.Completed:
+
+                            _analyticsService.Track($"Facebook Register Success");
+                            _userService.LoginMethod = "Facebook";
+                            await _authenticationService.LoginWithFacebook(_facebookService.ActiveToken);
+                            await LoginSucess(_facebookService.ActiveToken).ConfigureAwait(false);
+                            break;
+                        case FacebookActionStatus.Canceled:
+                            _analyticsService.Track($"Facebook Register Cancel");
+                            break;
+                    }
+
+                    _facebookService.OnUserData -= userDataDelegate;
+                };
+
+                _facebookService.OnUserData += userDataDelegate;
+
+                string[] fbRequestFields = { "email", "picture", "name" };
+                string[] fbPermisions = { "email", "public_profile" };
+                await _facebookService.RequestUserDataAsync(fbRequestFields, fbPermisions);
+            }
+            catch (Exception ex)
+            {
+                _analyticsService.Report(ex);
+                UserDialogs.Instance.Toast("Ocurrió un error al ingresar con Facebook");
+            }
         }
 
         async void RegisterGoogleAsync(object obj)
@@ -67,6 +117,7 @@ namespace FoodMaster.ViewModels
                         case GoogleActionStatus.Completed:
                             _analyticsService.Track($"Google Register Success");
                             _userService.LoginMethod = "Google";
+                            await _authenticationService.LoginWithGoogle(_googleService.IdToken, _googleService.AccessToken);
                             await LoginSucess(_googleService.AccessToken).ConfigureAwait(false);
                             break;
                         case GoogleActionStatus.Canceled:
