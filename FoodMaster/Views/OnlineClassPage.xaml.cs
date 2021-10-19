@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-
+using MediaManager;
 using Xamarin.Forms;
 
 namespace FoodMaster.Views
@@ -10,17 +9,25 @@ namespace FoodMaster.Views
         public OnlineClassPage()
         {
             InitializeComponent();
+            CrossMediaManager.Current.Notification.Enabled = false;
+            CrossMediaManager.Current.Notification.ShowNavigationControls = false;
+            CrossMediaManager.Current.Notification.ShowPlayPauseControls = false;
+            CrossMediaManager.Current.MediaPlayer.ShowPlaybackControls = false;
+            CrossMediaManager.Current.Init();
         }
 
-        protected override void OnDisappearing()
+        protected async override void OnDisappearing()
         {
             base.OnDisappearing();
-            videoPlayer?.Stop();
+            await CrossMediaManager.Current.Stop();
+            videoPlayer?.Dispose();
+            CrossMediaManager.Current.Dispose();
         }
 
         public void Dispose()
         {
-            videoPlayer?.Stop();
+            videoPlayer?.Dispose();
+            CrossMediaManager.Current.Dispose();
         }
     }
 }

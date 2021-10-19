@@ -4,8 +4,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:mm="clr-namespace:MediaManager.Forms;assembly=MediaManager.Forms"
     xmlns:vm="clr-namespace:FoodMaster.ViewModels"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="{Binding Title}"
     BackgroundColor="{DynamicResource BackgroundColor}">
     <ContentPage.BindingContext>
@@ -34,12 +34,12 @@
                 LineHeight="1.5"
                 Text="Contamos con gran variedad de profesionales en la cocina de todas partes del mundo, vive la experiencia y no dejes pasar la oportunidad"
                 VerticalOptions="Center" />
-            <xct:MediaElement
+            <mm:VideoView
                 x:Name="videoPlayer"
+                AutoPlay="True"
                 HeightRequest="200"
                 HorizontalOptions="Fill"
-                IsLooping="True"
-                ShowsPlaybackControls="False"
+                ShowControls="False"
                 Source="{Binding VideoSource}" />
         </StackLayout>
     </ContentPage.Content>

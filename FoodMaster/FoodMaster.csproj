@@ -30,6 +30,8 @@
     <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
     <PackageReference Include="Plugin.GoogleClient" Version="2.1.12" />
     <PackageReference Include="Plugin.FacebookClient" Version="2.2.1" />
+    <PackageReference Include="Plugin.MediaManager.Forms" Version="1.0.9" />
+    <PackageReference Include="Plugin.MediaManager" Version="1.0.9" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\" />
@@ -53,6 +55,8 @@
     <None Remove="Xamarin.FFImageLoading.Transformations" />
     <None Remove="Plugin.GoogleClient" />
     <None Remove="Plugin.FacebookClient" />
+    <None Remove="Plugin.MediaManager.Forms" />
+    <None Remove="Plugin.MediaManager" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

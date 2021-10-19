@@ -10,6 +10,7 @@ using Xamarin.Forms;
 using FoodMaster.Services;
 using Plugin.GoogleClient;
 using Plugin.FacebookClient;
+using MediaManager;
 
 namespace FoodMaster.Droid
 {
@@ -23,7 +24,7 @@ namespace FoodMaster.Droid
             Rg.Plugins.Popup.Popup.Init(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-
+            CrossMediaManager.Current.Init();
             UserDialogs.Init(this);
             GoogleClientManager.Initialize(this);
             FacebookClientManager.Initialize(this);
