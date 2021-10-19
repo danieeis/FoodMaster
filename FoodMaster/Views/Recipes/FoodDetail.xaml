@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converter="clr-namespace:FoodMaster.Converters"
     xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:vm="clr-namespace:FoodMaster.ViewModels"
     Title="{Binding Title}"
     BackgroundColor="{DynamicResource BackgroundColor}">
@@ -264,6 +265,7 @@
                 Padding="15,5"
                 BackgroundColor="{DynamicResource WhatsppColor}"
                 CornerRadius="32"
+                IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}"
                 HasShadow="False">
                 <StackLayout Orientation="Horizontal">
                     <ff:CachedImage

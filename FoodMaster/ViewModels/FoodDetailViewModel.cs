@@ -126,6 +126,8 @@ namespace FoodMaster.ViewModels
 
         private async void OpenWhatsapp(object obj)
         {
+            if (IsBusy) return;
+            IsBusy = true;
             string phoneNumber = _remoteConfig.BasicData.PhoneNumber;
             string ingredients = string.Join("\n", Ingredients.Select(x=> $"• {x}"));
             
@@ -148,8 +150,9 @@ namespace FoodMaster.ViewModels
                     Type = Type,
                     OrderAt = DateTime.Now.ToLocalTime()
                 }).ConfigureAwait(false);
-                await Xamarin.Essentials.Browser.OpenAsync($"https://wa.me/{phoneNumber}?text={text}");                
+                await Xamarin.Essentials.Browser.OpenAsync($"https://wa.me/{phoneNumber}?text={text}");
             }
+            IsBusy = false;
         }
 
         private void ChangePortion(object obj)

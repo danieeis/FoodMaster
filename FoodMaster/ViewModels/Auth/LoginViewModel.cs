@@ -71,8 +71,17 @@ namespace FoodMaster.ViewModels
 
                             _analyticsService.Track($"Facebook Login Success");
                             _userService.LoginMethod = "Facebook";
-                            await _authenticationService.LoginWithFacebook(_facebookService.ActiveToken);
-                            await LoginSucess(_facebookService.ActiveToken).ConfigureAwait(false);
+                            bool firebaseAuth = await _authenticationService.LoginWithFacebook(_facebookService.ActiveToken);
+                            if (firebaseAuth)
+                            {
+                                await LoginSucess(_facebookService.ActiveToken).ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                UserDialogs.Instance.Toast("Ocurrió un error al ingresar con Facebook");
+                                _facebookService.Logout();
+                            }
+                            
                             break;
                         case FacebookActionStatus.Canceled:
                             _analyticsService.Track($"Facebook Login Cancel");
@@ -114,8 +123,18 @@ namespace FoodMaster.ViewModels
                         case GoogleActionStatus.Completed:
                             _analyticsService.Track($"Google Login Success");
                             _userService.LoginMethod = "Google";
-                            await _authenticationService.LoginWithGoogle(_googleService.IdToken, _googleService.AccessToken);
-                            await LoginSucess(_googleService.AccessToken).ConfigureAwait(false);
+                           
+                            bool firebaseAuth = await _authenticationService.LoginWithGoogle(_googleService.IdToken, _googleService.AccessToken);
+                            if (firebaseAuth)
+                            {
+                                await LoginSucess(_googleService.AccessToken).ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                UserDialogs.Instance.Toast("Ocurrió un error al ingresar con Google");
+                                _googleService.Logout();
+                            }
+                            
                             break;
                         case GoogleActionStatus.Canceled:
                             _analyticsService.Track($"Google Login Canceled");
