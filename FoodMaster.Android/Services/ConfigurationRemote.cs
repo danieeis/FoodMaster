@@ -11,18 +11,32 @@ namespace FoodMaster.Droid.Services
 {
     public class ConfigurationRemote : IConfigurationRemote
     {
+        IAnalyticsService _analyticsService;
+        public ConfigurationRemote()
+        {
+            _analyticsService = DependencyService.Get<IAnalyticsService>();
+        }
+
         public async Task<BasicData> GetBasicData()
         {
-            var config = await FirebaseFirestore.Instance.Document("configuracion/datos_basicos").Get().ToAwaitableTask();
-
-            if (config is DocumentSnapshot basic)
+            try
             {
-                BasicData data = new BasicData();
+                var config = await FirebaseFirestore.Instance.Document("configuracion/datos_basicos").Get().ToAwaitableTask();
 
-                data.Email = basic.GetString("email");
-                data.PhoneNumber = basic.GetString("phone");
-                return data;
+                if (config is DocumentSnapshot basic)
+                {
+                    BasicData data = new BasicData();
+
+                    data.Email = basic.GetString("email");
+                    data.PhoneNumber = basic.GetString("phone");
+                    return data;
+                }
             }
+            catch (Exception ex)
+            {
+                _analyticsService.Report(ex);
+            }
+            
 
             return new BasicData();
         }

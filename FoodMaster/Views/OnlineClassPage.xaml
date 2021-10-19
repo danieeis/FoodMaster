@@ -24,8 +24,9 @@
                 VerticalOptions="Start" />
             <ff:CachedImage
                 Aspect="AspectFit"
+                HeightRequest="240"
                 HorizontalOptions="FillAndExpand"
-                Source="contact.png"
+                Source="{Binding ImageSource}"
                 VerticalOptions="Center" />
             <Label
                 FontSize="18"
@@ -34,10 +35,10 @@
                 Text="Contamos con gran variedad de profesionales en la cocina de todas partes del mundo, vive la experiencia y no dejes pasar la oportunidad"
                 VerticalOptions="Center" />
             <xct:MediaElement
+                HeightRequest="200"
                 HorizontalOptions="Fill"
                 IsLooping="True"
-                KeepScreenOn="True"
-                ShowsPlaybackControls="True"
+                ShowsPlaybackControls="False"
                 Source="{Binding VideoSource}" />
         </StackLayout>
     </ContentPage.Content>
