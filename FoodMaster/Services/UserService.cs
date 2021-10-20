@@ -18,10 +18,12 @@ namespace FoodMaster.Services
         User _user;
         IAuthenticationService _authenticationService;
         IAnalyticsService _analyticsService;
+        RemoteConfig _remoteConfig;
         public UserService()
         {
             _authenticationService = DependencyService.Get<IAuthenticationService>();
             _analyticsService = DependencyService.Get<IAnalyticsService>();
+            _remoteConfig = DependencyService.Get<RemoteConfig>();
             RetrieveUser();
         }
 
@@ -31,6 +33,7 @@ namespace FoodMaster.Services
             {
                 if (!IsAuthenticated) return;
                 User = _authenticationService.GetUserAsync();
+                _remoteConfig.Initialize().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
