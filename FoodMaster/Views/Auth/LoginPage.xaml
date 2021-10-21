@@ -42,7 +42,7 @@
                 IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}"
                 Text="Ingresar"
                 VerticalOptions="Center" />
-            <StackLayout Orientation="Horizontal">
+            <StackLayout IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}" Orientation="Horizontal">
                 <Button
                     BackgroundColor="#EA4335"
                     Command="{Binding LoginWithGoogle}"

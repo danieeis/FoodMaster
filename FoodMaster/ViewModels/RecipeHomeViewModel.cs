@@ -15,6 +15,7 @@ namespace FoodMaster.ViewModels
 
         public Command LogoutCommand { get; }
         public Command OpenCategory { get; }
+        public Command OpenOnlineClass { get; }
         string email;
         public string Email
         {
@@ -44,12 +45,17 @@ namespace FoodMaster.ViewModels
             Task.Run(GetAllCategories);
             LogoutCommand = new Command(Logout);
             OpenCategory = new Command<Gastronomy>(OpenGastronomy);
+            OpenOnlineClass = new Command(GoOnlineClass);
+        }
+
+        private async void GoOnlineClass(object obj)
+        {
+            await Shell.Current.GoToAsync($"{nameof(OnlineClassPage)}");
         }
 
         private void Logout(object obj)
         {
             _userService.InvalidateToken();
-            App.Current.MainPage = new LoginPage();
         }
 
         private async void OpenGastronomy(Gastronomy category)

@@ -2,6 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FoodMaster.Models;
+using FoodMaster.ViewModels;
+using FoodMaster.Views;
+using Newtonsoft.Json;
+using Plugin.FacebookClient;
+using Plugin.GoogleClient;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -10,20 +15,38 @@ namespace FoodMaster.Services
 {
     public class UserService
     {
-        readonly static WeakEventManager<string> _nameChangedEventManager = new WeakEventManager<string>();
-
         User _user;
         IAuthenticationService _authenticationService;
-
+        IAnalyticsService _analyticsService;
+        RemoteConfig _remoteConfig;
         public UserService()
         {
             _authenticationService = DependencyService.Get<IAuthenticationService>();
+            _analyticsService = DependencyService.Get<IAnalyticsService>();
+            _remoteConfig = DependencyService.Get<RemoteConfig>();
+            RetrieveUser();
         }
 
-        public static event EventHandler<string> NameChanged
+        public void RetrieveUser()
         {
-            add => _nameChangedEventManager.AddEventHandler(value);
-            remove => _nameChangedEventManager.RemoveEventHandler(value);
+            try
+            {
+                if (!IsAuthenticated) return;
+                User = _authenticationService.GetUserAsync();
+                _remoteConfig.Initialize().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                SignOut();
+                _analyticsService.Report(ex);
+            }
+            
+        }
+
+        public string LoginMethod
+        {
+            get => Preferences.Get(nameof(LoginMethod), "Email");
+            set => Preferences.Set(nameof(LoginMethod), value);
         }
 
         public bool IsAuthenticated
@@ -38,19 +61,6 @@ namespace FoodMaster.Services
             set => Preferences.Set(nameof(PassThroughOnboarding), value);
         }
 
-        public string Name
-        {
-            get => Preferences.Get(nameof(Name), string.Empty);
-            set
-            {
-                if (Name != value)
-                {
-                    Preferences.Set(nameof(Name), value);
-                    OnNameChanged(value);
-                }
-            }
-        }
-
         public User User
         {
             get => _user;
@@ -59,7 +69,6 @@ namespace FoodMaster.Services
                 if (_user != value)
                 {
                     _user = value;
-                    Name = _user?.Names.Split(' ').FirstOrDefault() ?? string.Empty;
                 }
             }
         }
@@ -70,51 +79,25 @@ namespace FoodMaster.Services
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
 
-            if (token is null)
-                throw new ArgumentNullException(nameof(token));
-
-
 
             await SecureStorage.SetAsync("OAuthToken", token).ConfigureAwait(false);
-
             IsAuthenticated = true;
-        }
-
-        public async Task<string> GetAuthToken()
-        {
-            try
-            {
-                var token = await SecureStorage.GetAsync("OAuthToken").ConfigureAwait(false);
-
-                if (token is null)
-                    return string.Empty;
-
-                IsAuthenticated = true;
-
-                return token;
-            }
-            catch (ArgumentNullException)
-            {
-                IsAuthenticated = false;
-                return string.Empty;
-            }
+            RetrieveUser();
         }
 
         public void InvalidateToken()
         {
             SecureStorage.Remove("OAuthToken");
-            _authenticationService.SignOut();
+            SignOut();
             IsAuthenticated = false;
+            User = null;
         }
 
-        void HandleLoggedOut(object sender, EventArgs e)
+        private void SignOut()
         {
-            SecureStorage.Remove("OAuthToken");
             _authenticationService.SignOut();
-            IsAuthenticated = false;
+
+            App.Current.MainPage = new LoginPage();
         }
-
-        void OnNameChanged(in string name) => _nameChangedEventManager.RaiseEvent(this, name, nameof(NameChanged));
-
     }
 }

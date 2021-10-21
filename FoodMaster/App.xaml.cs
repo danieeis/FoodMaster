@@ -6,12 +6,11 @@ namespace FoodMaster
 {
     public partial class App : Application
     {
-
+        UserService userService;
         public App()
         {
             InitializeComponent();
-            RegisterServices();
-            var userService = DependencyService.Get<UserService>();
+            userService = DependencyService.Get<UserService>();
             if (userService.IsAuthenticated)
             {
                 if (userService.PassThroughOnboarding)
@@ -28,18 +27,13 @@ namespace FoodMaster
             {
                 MainPage = new LoginPage();
             }
-
         }
 
-        private static void RegisterServices()
-        {
-            DependencyService.Register<UserService>();
-            DependencyService.Register<AnalyticsService>();
-            DependencyService.Register<App>();
-        }
+        
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
+            await DependencyService.Get<RemoteConfig>().Initialize().ConfigureAwait(false);            
         }
 
         protected override void OnSleep()

@@ -25,6 +25,13 @@
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.4.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.13" />
+    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
+    <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
+    <PackageReference Include="Plugin.GoogleClient" Version="2.1.12" />
+    <PackageReference Include="Plugin.FacebookClient" Version="2.2.1" />
+    <PackageReference Include="Plugin.MediaManager.Forms" Version="1.0.9" />
+    <PackageReference Include="Plugin.MediaManager" Version="1.0.9" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\" />
@@ -43,6 +50,13 @@
     <None Remove="Microsoft.AppCenter.Crashes" />
     <None Remove="Newtonsoft.Json" />
     <None Remove="Converters\" />
+    <None Remove="Rg.Plugins.Popup" />
+    <None Remove="Xamarin.Forms.PancakeView" />
+    <None Remove="Xamarin.FFImageLoading.Transformations" />
+    <None Remove="Plugin.GoogleClient" />
+    <None Remove="Plugin.FacebookClient" />
+    <None Remove="Plugin.MediaManager.Forms" />
+    <None Remove="Plugin.MediaManager" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

@@ -12,6 +12,13 @@ namespace FoodMaster.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        public IAnalyticsService _analyticsService;
+
+        public BaseViewModel()
+        {
+            _analyticsService = DependencyService.Get<IAnalyticsService>();
+        }
+
         bool isBusy = false;
         public bool IsBusy
         {

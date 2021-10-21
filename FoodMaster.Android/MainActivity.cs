@@ -6,6 +6,11 @@ using Android.Runtime;
 using Android.OS;
 using Acr.UserDialogs;
 using FFImageLoading.Forms.Platform;
+using Xamarin.Forms;
+using FoodMaster.Services;
+using Plugin.GoogleClient;
+using Plugin.FacebookClient;
+using MediaManager;
 
 namespace FoodMaster.Droid
 {
@@ -15,17 +20,37 @@ namespace FoodMaster.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            UserDialogs.Init(this);
+            RegisterServices();
+            Rg.Plugins.Popup.Popup.Init(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            CrossMediaManager.Current.Init();
+            UserDialogs.Init(this);
+            GoogleClientManager.Initialize(this);
+            FacebookClientManager.Initialize(this);
             CachedImageRenderer.Init(false);
             LoadApplication(new App());
         }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            FacebookClientManager.OnActivityResult(requestCode, resultCode, data);
+            GoogleClientManager.OnAuthCompleted(requestCode, resultCode, data);
+        }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        private static void RegisterServices()
+        {
+            DependencyService.Register<UserService>();
+            DependencyService.Register<AnalyticsService>();
+            DependencyService.Register<RemoteConfig>();
         }
     }
 }

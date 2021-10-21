@@ -1,9 +1,46 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentPage
+    x:Class="FoodMaster.Views.OnlineClassPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="FoodMaster.Views.OnlineClassPage">
+    xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:mm="clr-namespace:MediaManager.Forms;assembly=MediaManager.Forms"
+    xmlns:vm="clr-namespace:FoodMaster.ViewModels"
+    Title="{Binding Title}"
+    BackgroundColor="{DynamicResource BackgroundColor}">
+    <ContentPage.BindingContext>
+        <vm:OnlineClassViewModel />
+    </ContentPage.BindingContext>
     <ContentPage.Content>
-        
+        <StackLayout
+            Margin="10"
+            HorizontalOptions="FillAndExpand"
+            Spacing="20"
+            VerticalOptions="FillAndExpand">
+            <Label
+                FontSize="Title"
+                HorizontalTextAlignment="Start"
+                Text="Clases online"
+                VerticalOptions="Start" />
+            <ff:CachedImage
+                Aspect="AspectFit"
+                HeightRequest="240"
+                HorizontalOptions="FillAndExpand"
+                Source="{Binding ImageSource}"
+                VerticalOptions="Center" />
+            <Label
+                FontSize="18"
+                HorizontalTextAlignment="Center"
+                LineHeight="1.5"
+                Text="Contamos con gran variedad de profesionales en la cocina de todas partes del mundo, vive la experiencia y no dejes pasar la oportunidad"
+                VerticalOptions="Center" />
+            <mm:VideoView
+                x:Name="videoPlayer"
+                AutoPlay="True"
+                HeightRequest="200"
+                HorizontalOptions="Fill"
+                ShowControls="False"
+                Source="{Binding VideoSource}" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
