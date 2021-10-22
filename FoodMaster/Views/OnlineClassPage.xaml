@@ -39,7 +39,7 @@
                 AutoPlay="True"
                 HeightRequest="200"
                 HorizontalOptions="Fill"
-                ShowControls="False"
+                ShowControls="True"
                 Source="{Binding VideoSource}" />
         </StackLayout>
     </ContentPage.Content>

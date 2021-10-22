@@ -106,7 +106,6 @@ namespace FoodMaster.ViewModels
         }
 
         IRecipeService _recipeService;
-        IAuthenticationService _authenticationService;
         UserService _userService;
         RemoteConfig _remoteConfig;
         IOrderService _orderService;

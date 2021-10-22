@@ -1,9 +1,11 @@
 ﻿using Xamarin.Forms;
 using FoodMaster.Services;
 using FoodMaster.Views;
+using Xamarin.Forms.Xaml;
 
 namespace FoodMaster
 {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class App : Application
     {
         UserService userService;
@@ -13,6 +15,7 @@ namespace FoodMaster
             userService = DependencyService.Get<UserService>();
             if (userService.IsAuthenticated)
             {
+                DependencyService.Get<RemoteConfig>().Initialize().ConfigureAwait(false);
                 if (userService.PassThroughOnboarding)
                 {
                     MainPage = new AppShell();
@@ -31,9 +34,9 @@ namespace FoodMaster
 
         
 
-        protected override async void OnStart()
+        protected override void OnStart()
         {
-            await DependencyService.Get<RemoteConfig>().Initialize().ConfigureAwait(false);            
+            
         }
 
         protected override void OnSleep()

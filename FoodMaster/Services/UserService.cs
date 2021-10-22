@@ -73,21 +73,19 @@ namespace FoodMaster.Services
             }
         }
 
-        public async Task SaveToken(string token)
+        public Task SaveToken(string token)
         {
             IsAuthenticated = false;
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
-
-
-            await SecureStorage.SetAsync("OAuthToken", token).ConfigureAwait(false);
             IsAuthenticated = true;
             RetrieveUser();
+
+            return Task.CompletedTask;
         }
 
         public void InvalidateToken()
         {
-            SecureStorage.Remove("OAuthToken");
             SignOut();
             IsAuthenticated = false;
             User = null;

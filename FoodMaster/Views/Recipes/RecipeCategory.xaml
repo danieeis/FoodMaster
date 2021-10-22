@@ -4,8 +4,10 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:models="clr-namespace:FoodMaster.Models"
     xmlns:vm="clr-namespace:FoodMaster.ViewModels"
     Title="{Binding Title}"
+    x:DataType="vm:RecipeCategoryViewModel"
     BackgroundColor="{DynamicResource BackgroundColor}">
     <ContentPage.BindingContext>
         <vm:RecipeCategoryViewModel />
@@ -60,6 +62,7 @@
                         <DataTemplate>
                             <Frame
                                 Padding="0"
+                                x:DataType="models:Food"
                                 CornerRadius="20"
                                 HasShadow="False"
                                 HeightRequest="200">

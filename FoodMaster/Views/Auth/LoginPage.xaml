@@ -15,58 +15,60 @@
         </Style>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Image
-                Aspect="AspectFit"
-                HeightRequest="300"
-                Source="{xct:ImageResource Id=FoodMaster.Resources.Images.logo.png}" />
-            <Label
-                FontSize="Title"
-                HorizontalTextAlignment="Center"
-                Text="Inicia sesión" />
-            <Entry
-                Keyboard="Email"
-                Placeholder="Correo eléctronico"
-                ReturnType="Next"
-                Style="{x:StaticResource CustomEntry}"
-                Text="{Binding Email}" />
-            <Entry
-                IsPassword="True"
-                Placeholder="Contraseña"
-                ReturnCommand="{Binding LoginCommand}"
-                ReturnType="Done"
-                Style="{x:StaticResource CustomEntry}"
-                Text="{Binding Password}" />
-            <Button
-                Command="{Binding LoginCommand}"
-                IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}"
-                Text="Ingresar"
-                VerticalOptions="Center" />
-            <StackLayout IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}" Orientation="Horizontal">
+        <ScrollView>
+            <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
+                <Image
+                    Aspect="AspectFit"
+                    HeightRequest="300"
+                    Source="{xct:ImageResource Id=FoodMaster.Resources.Images.logo.png}" />
+                <Label
+                    FontSize="Title"
+                    HorizontalTextAlignment="Center"
+                    Text="Inicia sesión" />
+                <Entry
+                    Keyboard="Email"
+                    Placeholder="Correo eléctronico"
+                    ReturnType="Next"
+                    Style="{x:StaticResource CustomEntry}"
+                    Text="{Binding Email}" />
+                <Entry
+                    IsPassword="True"
+                    Placeholder="Contraseña"
+                    ReturnCommand="{Binding LoginCommand}"
+                    ReturnType="Done"
+                    Style="{x:StaticResource CustomEntry}"
+                    Text="{Binding Password}" />
                 <Button
-                    BackgroundColor="#EA4335"
-                    Command="{Binding LoginWithGoogle}"
-                    HorizontalOptions="FillAndExpand"
-                    Text="Google" />
-                <Button
-                    BackgroundColor="#3B5998"
-                    Command="{Binding LoginWithFacebook}"
-                    HorizontalOptions="FillAndExpand"
-                    Text="Facebook" />
+                    Command="{Binding LoginCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}"
+                    Text="Ingresar"
+                    VerticalOptions="Center" />
+                <StackLayout IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}" Orientation="Horizontal">
+                    <Button
+                        BackgroundColor="#EA4335"
+                        Command="{Binding LoginWithGoogle}"
+                        HorizontalOptions="FillAndExpand"
+                        Text="Google" />
+                    <Button
+                        BackgroundColor="#3B5998"
+                        Command="{Binding LoginWithFacebook}"
+                        HorizontalOptions="FillAndExpand"
+                        Text="Facebook" />
+                </StackLayout>
+                <Label HorizontalTextAlignment="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="¿No tienes una cuenta? Regístrate" />
+                            <Span Text=" " />
+                            <Span Text="aquí" TextDecorations="Underline">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding GoRegister}" />
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
             </StackLayout>
-            <Label HorizontalTextAlignment="Center">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="¿No tienes una cuenta? Regístrate" />
-                        <Span Text=" " />
-                        <Span Text="aquí" TextDecorations="Underline">
-                            <Span.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding GoRegister}" />
-                            </Span.GestureRecognizers>
-                        </Span>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
