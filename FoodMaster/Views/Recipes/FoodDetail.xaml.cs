@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using FoodMaster.ViewModels;
 using Rg.Plugins.Popup.Extensions;
+using Xamarin.Forms.Xaml;
 
 namespace FoodMaster.Views
 {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FoodDetail : ContentPage
     {
         PortionSelector PortionSelector;

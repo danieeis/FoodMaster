@@ -28,7 +28,7 @@ namespace FoodMaster.Droid
             UserDialogs.Init(this);
             GoogleClientManager.Initialize(this);
             FacebookClientManager.Initialize(this);
-            CachedImageRenderer.Init(false);
+            CachedImageRenderer.Init(true);
             LoadApplication(new App());
         }
 

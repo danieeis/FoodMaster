@@ -1,9 +1,11 @@
 ﻿using Xamarin.Forms;
 using FoodMaster.Services;
 using FoodMaster.Views;
+using Xamarin.Forms.Xaml;
 
 namespace FoodMaster
 {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class App : Application
     {
         UserService userService;

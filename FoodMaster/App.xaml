@@ -7,14 +7,17 @@
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="Primary">#FB9F1C</Color>
+            <Color x:Key="Primary50">#50FB9F1C</Color>
             <Color x:Key="Accent">#599231</Color>
             <Color x:Key="BackgroundColor">#F3EFE3</Color>
+            <Color x:Key="AccentVariant40">#4064471D</Color>
             <Color x:Key="AccentVariant">#64471D</Color>
             <Color x:Key="PrimaryDark">#503106</Color>
             <Color x:Key="TextColor">#4B4A4A</Color>
             <Color x:Key="WhatsppColor">#25D366</Color>
             <Style x:Key="Icons" TargetType="ff:CachedImage">
                 <Setter Property="WidthRequest" Value="20" />
+                <Setter Property="HeightRequest" Value="20" />
                 <Setter Property="Margin" Value="2" />
             </Style>
             <Style TargetType="Button">

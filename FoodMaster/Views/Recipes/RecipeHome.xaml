@@ -4,9 +4,11 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:models="clr-namespace:FoodMaster.Models"
     xmlns:vm="clr-namespace:FoodMaster.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="{Binding Title}"
+    x:DataType="vm:RecipeHomeViewModel"
     BackgroundColor="{DynamicResource BackgroundColor}">
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding LogoutCommand}" Text="Salir" />
@@ -70,7 +72,7 @@
                                     VerticalItemSpacing="10" />
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
-                                <DataTemplate>
+                                <DataTemplate x:DataType="models:Gastronomy">
                                     <Frame
                                         Padding="0"
                                         CornerRadius="20"
@@ -122,7 +124,7 @@
                                     VerticalItemSpacing="10" />
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
-                                <DataTemplate>
+                                <DataTemplate x:DataType="models:Gastronomy">
                                     <Frame
                                         Padding="0"
                                         CornerRadius="20"

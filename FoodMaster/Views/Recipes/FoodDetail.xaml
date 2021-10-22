@@ -5,9 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converter="clr-namespace:FoodMaster.Converters"
     xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:models="clr-namespace:FoodMaster.Models"
     xmlns:vm="clr-namespace:FoodMaster.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="{Binding Title}"
+    x:DataType="vm:FoodDetailViewModel"
     BackgroundColor="{DynamicResource BackgroundColor}">
     <ContentPage.BindingContext>
         <vm:FoodDetailViewModel />
@@ -15,7 +17,7 @@
     <ContentPage.Resources>
         <converter:LevelImageConverter x:Key="LevelImageConverter" />
         <Style x:Key="Boxes" TargetType="Frame">
-            <Setter Property="BackgroundColor" Value="Orange" />
+            <Setter Property="BackgroundColor" Value="{StaticResource Primary50}" />
             <Setter Property="CornerRadius" Value="10" />
             <Setter Property="HasShadow" Value="False" />
             <Setter Property="HorizontalOptions" Value="FillAndExpand" />
@@ -26,7 +28,7 @@
         </Style>
         <Style x:Key="PortionTitleLabels" TargetType="Label">
             <Setter Property="FontSize" Value="12" />
-            <Setter Property="BackgroundColor" Value="DarkOrange" />
+            <Setter Property="BackgroundColor" Value="{StaticResource AccentVariant40}" />
             <Setter Property="Padding" Value="5" />
         </Style>
     </ContentPage.Resources>
@@ -37,7 +39,7 @@
                 Grid.RowSpan="2"
                 Grid.Column="0"
                 Grid.ColumnSpan="2">
-                <StackLayout>
+                <StackLayout CompressedLayout.IsHeadless="true">
                     <!--  Imagen  -->
                     <ff:CachedImage
                         Aspect="AspectFill"
@@ -60,7 +62,7 @@
                             Grid.Row="0"
                             Grid.Column="1"
                             WidthRequest="5"
-                            Color="Orange" />
+                            Color="{DynamicResource Primary}" />
                         <Label
                             Grid.Row="0"
                             Grid.Column="2"
@@ -73,6 +75,7 @@
                     <Grid
                         Margin="10"
                         ColumnDefinitions="1.5*,*"
+                        CompressedLayout.IsHeadless="true"
                         RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                         <!--  Nivel  -->
                         <Frame
@@ -133,7 +136,7 @@
                             Style="{StaticResource Boxes}">
                             <CollectionView HeightRequest="240" ItemsSource="{Binding Ingredients}">
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate>
+                                    <DataTemplate x:DataType="x:String">
                                         <Label Text="{Binding ., StringFormat='• {0}'}" />
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
@@ -145,7 +148,7 @@
                             Grid.Column="1"
                             Padding="0"
                             Style="{StaticResource Boxes}">
-                            <Grid ColumnDefinitions="Auto,*,*" RowDefinitions="Auto,*,*,*,*,*,*,*,Auto">
+                            <Grid ColumnDefinitions="*,Auto,Auto" RowDefinitions="Auto,*,*,*,*,*,*,*,Auto">
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="0"
@@ -160,9 +163,12 @@
                                     Margin="0,4"
                                     BindableLayout.ItemsSource="{Binding Portions}">
                                     <BindableLayout.ItemTemplate>
-                                        <DataTemplate>
+                                        <DataTemplate x:DataType="models:PortionDTO">
                                             <StackLayout>
-                                                <Label Style="{StaticResource PortionTitleLabels}" Text="{Binding Title}" />
+                                                <Label
+                                                    LineBreakMode="WordWrap"
+                                                    Style="{StaticResource PortionTitleLabels}"
+                                                    Text="{Binding Title}" />
                                                 <Label Style="{StaticResource PortionLabels}" Text="{Binding Value}" />
                                             </StackLayout>
                                         </DataTemplate>
@@ -220,7 +226,7 @@
                             Style="{StaticResource Boxes}">
                             <StackLayout BindableLayout.ItemsSource="{Binding Tips}">
                                 <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
+                                    <DataTemplate x:DataType="models:TipDTO">
                                         <StackLayout Orientation="Horizontal">
                                             <ff:CachedImage Source="{Binding Icon}" Style="{StaticResource Icons}" />
                                             <Label Text="{Binding Text}" />
@@ -248,7 +254,7 @@
                             Style="{StaticResource Boxes}">
                             <StackLayout BindableLayout.ItemsSource="{Binding Preparation}">
                                 <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
+                                    <DataTemplate x:DataType="x:String">
                                         <Label Text="{Binding ., StringFormat='• {0}'}" />
                                     </DataTemplate>
                                 </BindableLayout.ItemTemplate>
@@ -265,8 +271,8 @@
                 Padding="15,5"
                 BackgroundColor="{DynamicResource WhatsppColor}"
                 CornerRadius="32"
-                IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}"
-                HasShadow="False">
+                HasShadow="False"
+                IsEnabled="{Binding IsBusy, Converter={xct:InvertedBoolConverter}}">
                 <StackLayout Orientation="Horizontal">
                     <ff:CachedImage
                         Source="whatsapp_white.png"
