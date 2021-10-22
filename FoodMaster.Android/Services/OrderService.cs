@@ -25,12 +25,12 @@ namespace FoodMaster.Droid.Services
                 foreach (DocumentSnapshot item in element.Documents)
                 {
                     Order order = new Order();
-                    
+                    bool parseDate = DateTime.TryParse(item.GetString("OrderAt"), out DateTime orderAt);
                     order.Type = item.GetString("Type");
                     order.Name = item.GetString("Name");
                     order.Image = item.GetString("Image");
                     order.Portion = item.GetString("Portion");
-                    order.OrderAt = DateTime.Parse(item.GetString("OrderAt"));
+                    order.OrderAt = parseDate ? orderAt : DateTime.Now;
 
                     orders.Add(order);
                 }

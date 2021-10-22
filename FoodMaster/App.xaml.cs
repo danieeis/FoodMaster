@@ -13,6 +13,7 @@ namespace FoodMaster
             userService = DependencyService.Get<UserService>();
             if (userService.IsAuthenticated)
             {
+                DependencyService.Get<RemoteConfig>().Initialize().ConfigureAwait(false);
                 if (userService.PassThroughOnboarding)
                 {
                     MainPage = new AppShell();
@@ -31,9 +32,9 @@ namespace FoodMaster
 
         
 
-        protected override async void OnStart()
+        protected override void OnStart()
         {
-            await DependencyService.Get<RemoteConfig>().Initialize().ConfigureAwait(false);            
+            
         }
 
         protected override void OnSleep()
